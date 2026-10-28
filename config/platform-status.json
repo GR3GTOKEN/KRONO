@@ -1,0 +1,217 @@
+{
+  "capabilities": [
+    {
+      "name": "Public market data",
+      "status": "LIVE",
+      "details": "Discover and token pages request public CoinGecko market data. This is data access, not an exchange connection."
+    },
+    {
+      "name": "Project directory",
+      "status": "IMPLEMENTED",
+      "details": "Directory examples are unverified. Authenticated submissions, admin review, and approved-only publication are implemented but require configured Supabase and applied migrations."
+    },
+    {
+      "name": "Wallet sessions",
+      "status": "EVM ONLY",
+      "details": "EIP-1193 connection, network, native balance, and ERC-20 reads are supported for EVM wallets. Wallets and balances remain independent of KRONOS accounts. Solana and MultiversX wallet adapters are not implemented."
+    },
+    {
+      "name": "User authentication",
+      "status": "UNCONFIGURED",
+      "details": "Email/password signup, sign-in, and password reset are implemented with Supabase, but SUPABASE_URL and SUPABASE_ANON_KEY are not configured."
+    },
+    {
+      "name": "Spot trading",
+      "status": "UNCONFIGURED",
+      "details": "No exchange adapter, order API, provider account, sandbox, or order reconciliation service is configured."
+    },
+    {
+      "name": "Token swaps",
+      "status": "INCOMPLETE",
+      "details": "Provider configuration does not establish quote endpoint health. Transaction execution is not implemented; end-to-end testing and independent production review are incomplete. Execution is disabled."
+    },
+    {
+      "name": "Cross-chain swaps",
+      "status": "UNAVAILABLE",
+      "details": "Cross-chain routing and destination-delivery verification are not implemented. Same-chain swap support does not imply cross-chain support."
+    },
+    {
+      "name": "Futures and margin",
+      "status": "UNCONFIGURED",
+      "details": "No supported derivatives or margin provider is selected. Positions, leverage, funding, borrowing, and liquidation data are not available."
+    },
+    {
+      "name": "Deposits and withdrawals",
+      "status": "UNAVAILABLE",
+      "details": "There is no custody service, financial ledger, deposit address service, or withdrawal approval infrastructure."
+    }
+  ],
+  "networks": [
+    {
+      "name": "Ethereum Mainnet",
+      "chain_id": 1,
+      "network_key": "ethereum",
+      "native_currency": {
+        "name": "Ether",
+        "symbol": "ETH",
+        "decimals": 18
+      },
+      "explorer_url": "https://etherscan.io/",
+      "environment": "Mainnet",
+      "wallet_connect_chain": true,
+      "evm": true,
+      "coingecko_platform_id": "ethereum",
+      "market_data_enabled": true,
+      "wallet_connection_enabled": true,
+      "same_chain_swap_provider": "0x",
+      "same_chain_swap_supported": true,
+      "same_chain_swap_enabled": false,
+      "cross_chain_swap_enabled": false,
+      "execution_enabled": false
+    },
+    {
+      "name": "BNB Smart Chain",
+      "chain_id": 56,
+      "network_key": "bnb-smart-chain",
+      "native_currency": {"name": "BNB", "symbol": "BNB", "decimals": 18},
+      "explorer_url": "https://bscscan.com/",
+      "environment": "Mainnet",
+      "wallet_connect_chain": true,
+      "evm": true,
+      "coingecko_platform_id": "binance-smart-chain",
+      "market_data_enabled": true,
+      "wallet_connection_enabled": true,
+      "same_chain_swap_provider": "0x",
+      "same_chain_swap_supported": true,
+      "same_chain_swap_enabled": false,
+      "cross_chain_swap_enabled": false,
+      "execution_enabled": false
+    },
+    {
+      "name": "Polygon",
+      "chain_id": 137,
+      "network_key": "polygon",
+      "native_currency": {"name": "POL", "symbol": "POL", "decimals": 18},
+      "explorer_url": "https://polygonscan.com/",
+      "environment": "Mainnet",
+      "wallet_connect_chain": true,
+      "evm": true,
+      "coingecko_platform_id": "polygon-pos",
+      "market_data_enabled": true,
+      "wallet_connection_enabled": true,
+      "same_chain_swap_provider": "0x",
+      "same_chain_swap_supported": true,
+      "same_chain_swap_enabled": false,
+      "cross_chain_swap_enabled": false,
+      "execution_enabled": false
+    },
+    {
+      "name": "Arbitrum One",
+      "chain_id": 42161,
+      "network_key": "arbitrum",
+      "native_currency": {"name": "Ether", "symbol": "ETH", "decimals": 18},
+      "explorer_url": "https://arbiscan.io/",
+      "environment": "Mainnet",
+      "wallet_connect_chain": true,
+      "evm": true,
+      "coingecko_platform_id": "arbitrum-one",
+      "market_data_enabled": true,
+      "wallet_connection_enabled": true,
+      "same_chain_swap_provider": "0x",
+      "same_chain_swap_supported": true,
+      "same_chain_swap_enabled": false,
+      "cross_chain_swap_enabled": false,
+      "execution_enabled": false
+    },
+    {
+      "name": "Base",
+      "chain_id": 8453,
+      "network_key": "base",
+      "native_currency": {"name": "Ether", "symbol": "ETH", "decimals": 18},
+      "explorer_url": "https://basescan.org/",
+      "environment": "Mainnet",
+      "wallet_connect_chain": true,
+      "evm": true,
+      "coingecko_platform_id": "base",
+      "market_data_enabled": true,
+      "wallet_connection_enabled": true,
+      "same_chain_swap_provider": "0x",
+      "same_chain_swap_supported": true,
+      "same_chain_swap_enabled": false,
+      "cross_chain_swap_enabled": false,
+      "execution_enabled": false
+    },
+    {
+      "name": "Avalanche C-Chain",
+      "chain_id": 43114,
+      "network_key": "avalanche",
+      "native_currency": {"name": "Avalanche", "symbol": "AVAX", "decimals": 18},
+      "explorer_url": "https://snowtrace.io/",
+      "environment": "Mainnet",
+      "wallet_connect_chain": true,
+      "evm": true,
+      "coingecko_platform_id": "avalanche",
+      "market_data_enabled": true,
+      "wallet_connection_enabled": true,
+      "same_chain_swap_provider": "0x",
+      "same_chain_swap_supported": true,
+      "same_chain_swap_enabled": false,
+      "cross_chain_swap_enabled": false,
+      "execution_enabled": false
+    },
+    {
+      "name": "Optimism",
+      "chain_id": 10,
+      "network_key": "optimism",
+      "native_currency": {"name": "Ether", "symbol": "ETH", "decimals": 18},
+      "explorer_url": "https://optimistic.etherscan.io/",
+      "environment": "Mainnet",
+      "wallet_connect_chain": true,
+      "evm": true,
+      "coingecko_platform_id": "optimistic-ethereum",
+      "market_data_enabled": true,
+      "wallet_connection_enabled": true,
+      "same_chain_swap_provider": "0x",
+      "same_chain_swap_supported": true,
+      "same_chain_swap_enabled": false,
+      "cross_chain_swap_enabled": false,
+      "execution_enabled": false
+    },
+    {
+      "name": "Solana",
+      "network_key": "solana",
+      "native_currency": {"name": "Solana", "symbol": "SOL", "decimals": 9},
+      "explorer_url": "https://explorer.solana.com/",
+      "environment": "Mainnet",
+      "wallet_connect_chain": false,
+      "evm": false,
+      "coingecko_platform_id": "solana",
+      "market_data_enabled": true,
+      "wallet_connection_enabled": false,
+      "same_chain_swap_provider": null,
+      "same_chain_swap_supported": false,
+      "same_chain_swap_enabled": false,
+      "cross_chain_swap_enabled": false,
+      "execution_enabled": false,
+      "status_note": "Jupiter provides a separate Solana API, but its Solana wallet signing and execute adapter is not implemented."
+    },
+    {
+      "name": "MultiversX",
+      "network_key": "multiversx",
+      "native_currency": {"name": "eGold", "symbol": "EGLD", "decimals": 18},
+      "explorer_url": "https://explorer.multiversx.com/",
+      "environment": "Mainnet",
+      "wallet_connect_chain": false,
+      "evm": false,
+      "coingecko_platform_id": "elrond",
+      "market_data_enabled": true,
+      "wallet_connection_enabled": false,
+      "same_chain_swap_provider": null,
+      "same_chain_swap_supported": false,
+      "same_chain_swap_enabled": false,
+      "cross_chain_swap_enabled": false,
+      "execution_enabled": false,
+      "status_note": "MultiversX wallet, token, and xExchange routing integrations are not implemented."
+    }
+  ]
+}

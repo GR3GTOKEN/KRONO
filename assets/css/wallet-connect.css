@@ -1,0 +1,66 @@
+.wallet-pill[data-wallet-connect] {
+  color: inherit;
+  cursor: pointer;
+}
+
+.secondary-btn[data-wallet-connect] { grid-column: 1 / -1; }
+
+.wallet-dialog {
+  width: min(420px, calc(100vw - 32px));
+  padding: 24px;
+  border: 1px solid #30363e;
+  border-radius: 14px;
+  background: #0b0e12;
+  color: #f1f3f5;
+  box-shadow: 0 24px 80px #000b;
+}
+
+.wallet-dialog::backdrop { background: #000b; backdrop-filter: blur(4px); }
+.wallet-dialog h2 { margin: 0 0 8px; font-size: 20px; }
+.wallet-dialog p { margin: 0; color: #929aa3; line-height: 1.5; }
+.wallet-dialog-options { display: grid; gap: 10px; margin-top: 20px; }
+.wallet-dialog-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 58px;
+  padding: 10px 13px;
+  border: 1px solid #30363e;
+  border-radius: 8px;
+  background: #101419;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.wallet-dialog-option:hover { border-color: #b62d38; background: #171316; }
+.wallet-option-icon {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  place-items: center;
+  border-radius: 50%;
+  background: #211216;
+  color: #f18a92;
+  font-size: 17px;
+}
+.wallet-option-copy { display: grid; gap: 3px; }
+.wallet-option-copy small { color: #929aa3; font-size: 11px; }
+.wallet-dialog-status {
+  min-height: 20px;
+  margin-top: 14px !important;
+  font-size: 12px;
+}
+.wallet-dialog-status[data-state="error"] { color: #ff929b; }
+.wallet-dialog-status[data-state="pending"] { color: #e5c982; }
+.wallet-dialog-close {
+  display: block;
+  margin: 14px 0 0 auto;
+  padding: 7px 12px;
+  border: 1px solid #30363e;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.wallet-dialog button:focus-visible { outline: 2px solid #e75a66; outline-offset: 2px; }

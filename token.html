@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050709">
+  <title>Token — KRONOS</title>
+  <link rel="stylesheet" href="assets/css/market.css">
+  <link rel="stylesheet" href="assets/css/wallet-connect.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="KRONOS home"><span class="brand-mark" aria-hidden="true">Ω</span><span class="brand-name">KRONOS</span></a>
+    <nav class="top-links" aria-label="Main navigation">
+      <a href="discover.html" class="active">Discover</a><a href="trade.html">Trading</a><a href="swap.html">Swap</a><a href="listings.html">Listings</a><a href="listings.html#submit-project">Promote</a><a href="launch.html">Platform status</a><a href="index.html#research">Research</a>
+    </nav>
+    <div class="header-tools"><button class="wallet-pill" type="button" data-wallet-connect aria-label="Connect Wallet"><span class="wallet-dot"></span><span data-wallet-label>Connect Wallet</span></button></div><div id="walletMessage" class="wallet-message" aria-live="polite"></div>
+  </header>
+  <aside class="sidebar">
+    <nav class="side-nav" aria-label="Dashboard navigation">
+      <a class="side-link" href="index.html"><span class="side-icon">⌂</span>Home</a>
+      <a class="side-link" href="trade.html"><span class="side-icon">⌁</span>Trading</a>
+      <a class="side-link" href="swap.html"><span class="side-icon">⇄</span>Swap</a>
+      <a class="side-link active" href="discover.html"><span class="side-icon">◉</span>Discover</a>
+      <a class="side-link" href="listings.html"><span class="side-icon">♧</span>Listings</a>
+      <a class="side-link" href="listings.html#submit-project"><span class="side-icon">⌁</span>Promote</a>
+      <a class="side-link" href="index.html#research"><span class="side-icon">◈</span>Research</a>
+    </nav>
+    <nav class="side-nav secondary" aria-label="Your account"><a class="side-link" href="login.html"><span class="side-icon">♙</span>Account</a></nav>
+  </aside>
+  <main class="workspace">
+    <div class="page">
+      <p><a class="view-link" href="discover.html">← Back to Discover</a></p>
+      <div class="market-status" id="tokenStatus" role="status" aria-live="polite"><span class="loading">Loading token data...</span></div>
+      <section id="tokenContent" hidden>
+        <header class="page-heading">
+          <div class="token-header">
+            <span class="asset-logo" id="tokenLogo"></span>
+            <div><h1 id="tokenName">Token</h1><div class="asset-symbol" id="tokenSymbol"></div></div>
+          </div>
+          <button class="button" id="tokenRefresh" type="button">↻ &nbsp;Refresh</button>
+        </header>
+        <div class="token-price" id="tokenPrice">—</div>
+        <div class="token-change" id="tokenChange">24h change —</div>
+        <section class="token-stats" aria-label="Token market statistics">
+          <article class="token-stat"><span>Market cap</span><strong id="tokenMarketCap">—</strong></article>
+          <article class="token-stat"><span>24h volume</span><strong id="tokenVolume">—</strong></article>
+          <article class="token-stat"><span>Circulating supply</span><strong id="tokenCirculating">—</strong></article>
+          <article class="token-stat"><span>Total / max supply</span><strong id="tokenSupply">—</strong></article>
+        </section>
+        <section class="card chart-panel">
+          <div class="chart-heading"><h2>Price history</h2><span class="asset-symbol">7 days · USD</span></div>
+          <div id="chartStatus" class="market-status">Loading price history...</div>
+          <svg class="price-chart" id="priceChart" viewBox="0 0 900 250" preserveAspectRatio="none" role="img" aria-label="Seven-day token price chart"></svg>
+        </section>
+        <div class="project-info">
+          <section class="card"><h2>About</h2><div class="project-description" id="tokenDescription">Project description is not available from the provider.</div></section>
+          <section class="card"><h2>Official links</h2><div class="project-links" id="tokenLinks">No project links available.</div></section>
+        </div>
+      </section>
+      <section class="card empty-state" id="tokenError" hidden><strong>Token unavailable</strong><span id="tokenErrorMessage"></span><p><a class="button" href="discover.html">Return to Discover</a></p></section>
+      <p class="fine-print">Token identity, prices, supply, and chart data are provided by CoinGecko. Supply fields may be unavailable for some assets.</p>
+    </div>
+  </main>
+  <script src="assets/js/market-api.js"></script>
+  <script src="assets/js/token.js"></script>
+  <script src="assets/js/wallet-connect.js"></script>
+</body>
+</html>

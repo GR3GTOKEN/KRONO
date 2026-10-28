@@ -1,0 +1,13 @@
+.venv
+.git
+__pycache__
+*.py[cod]
+.pytest_cache
+.env
+.env.*
+!.env.example
+*.sqlite3
+*.db
+data
+tests
+ARCHITECTURE.md

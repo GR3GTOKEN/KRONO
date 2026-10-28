@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050709">
+  <title>Discover Markets — KRONOS</title>
+  <link rel="stylesheet" href="assets/css/market.css">
+  <link rel="stylesheet" href="assets/css/wallet-connect.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="KRONOS home"><span class="brand-mark" aria-hidden="true">Ω</span><span class="brand-name">KRONOS</span></a>
+
+    <div class="header-tools"><button class="wallet-pill" type="button" data-wallet-connect aria-label="Connect Wallet"><span class="wallet-dot"></span><span data-wallet-label>Connect Wallet</span></button></div><div id="walletMessage" class="wallet-message" aria-live="polite"></div>
+  </header>
+  <aside class="sidebar">
+    <nav class="side-nav" aria-label="Dashboard navigation">
+      <a class="side-link" href="index.html"><span class="side-icon">⌂</span>Home</a>
+      <a class="side-link" href="trade.html"><span class="side-icon">⌁</span>Trading</a>
+      <a class="side-link" href="swap.html"><span class="side-icon">⇄</span>Swap</a>
+
+      <a class="side-link" href="index.html#research"><span class="side-icon">◈</span>Research</a>
+    </nav>
+    <nav class="side-nav secondary" aria-label="Your account">
+      <a class="side-link" href="login.html"><span class="side-icon">♙</span>Account</a>
+    </nav>
+  </aside>
+  <main class="workspace">
+    <div class="page">
+      <header class="page-heading">
+        <div><div class="eyebrow">Live market data</div><h1>Discover the market</h1><p>Explore real-time crypto market prices, performance, and market capitalization.</p></div>
+        <button class="button primary" id="refreshButton" type="button">↻ &nbsp;Refresh data</button>
+      </header>
+      <section class="card" aria-label="Cryptocurrency market explorer">
+        <div class="market-toolbar">
+          <label class="control search-control"><input type="search" id="searchInput" placeholder="Search by coin name or symbol..." aria-label="Search coins"></label>
+          <select class="control" id="sortSelect" aria-label="Sort markets">
+            <option value="market_cap_desc">Market cap: high to low</option>
+            <option value="market_cap_asc">Market cap: low to high</option>
+            <option value="current_price_desc">Price: high to low</option>
+            <option value="current_price_asc">Price: low to high</option>
+            <option value="total_volume_desc">Volume: high to low</option>
+            <option value="total_volume_asc">Volume: low to high</option>
+            <option value="change_desc">24h change: high to low</option>
+            <option value="change_asc">24h change: low to high</option>
+          </select>
+        </div>
+        <div class="market-status" id="marketStatus" role="status" aria-live="polite"><span class="loading">Loading live market data...</span></div>
+        <div class="market-shortcuts" role="group" aria-label="Market filters">
+          <button class="chip-button" type="button" data-filter="all" aria-pressed="true">Top market cap</button>
+          <button class="chip-button" type="button" data-filter="gainers" aria-pressed="false">Top gainers</button>
+          <button class="chip-button" type="button" data-filter="losers" aria-pressed="false">Top losers</button>
+          <button class="chip-button" type="button" data-filter="trending" aria-pressed="false">Trending</button>
+        </div>
+        <div class="table-scroll">
+          <table class="asset-table">
+            <thead><tr><th>#</th><th>Asset</th><th>Price</th><th>24h</th><th>Market cap</th><th>24h volume</th></tr></thead>
+            <tbody id="marketRows"></tbody>
+          </table>
+        </div>
+        <div class="asset-cards" id="assetCards"></div>
+        <div class="empty-state" id="emptyState" hidden><strong>No matching coins</strong>Try another name or symbol.</div>
+        <div class="pagination">
+          <span id="pageLabel">Page 1 · 50 markets per page</span>
+          <div class="pagination-controls"><button class="button" id="previousPage" type="button" disabled>Previous</button><button class="button" id="nextPage" type="button">Next</button></div>
+        </div>
+      </section>
+      <p class="fine-print">Prices, logos, and market statistics are provided by CoinGecko. Trending, gainers, and losers are ranked from the current market page. Data may be delayed or limited by the public API.</p>
+    </div>
+  </main>
+  <script src="assets/js/market-api.js"></script>
+  <script src="assets/js/discover.js"></script>
+  <script src="assets/js/wallet-connect.js"></script>
+</body>
+</html>

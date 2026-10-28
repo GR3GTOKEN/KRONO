@@ -1,0 +1,761 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KRONOS — Account</title>
+  <style>
+    :root {
+      --bg: #05070a;
+      --bg-2: #0c1117;
+      --panel: rgba(12, 16, 22, 0.92);
+      --panel-strong: rgba(19, 24, 30, 0.96);
+      --line: rgba(255,255,255,0.08);
+      --text: #edf1f4;
+      --muted: #a7adb6;
+      --soft: #dfe5eb;
+      --red: #ce3447;
+      --red-2: #a42435;
+      --green: #3fdd9d;
+      --shadow: rgba(0,0,0,0.42);
+      font-family: "Cambria Math", Cambria, "Times New Roman", serif;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(1000px 500px at 80% 10%, rgba(176, 53, 72, 0.18), transparent 32%),
+        linear-gradient(180deg, #05070a 0%, #090d12 100%);
+      color: var(--text);
+    }
+
+    .shell {
+      width: min(980px, calc(100vw - 32px));
+      margin: 52px auto;
+      background: rgba(10, 13, 17, 0.96);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: 0 28px 70px rgba(0,0,0,0.45);
+      overflow: hidden;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,0.015);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 0.26em;
+    }
+
+    .brand-mark {
+      display: inline-grid;
+      place-items: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.14);
+      color: #eb6770;
+      font-family: "Cambria Math", Cambria, "Times New Roman", serif;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .ghost-btn {
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.02);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .content {
+      display: grid;
+      grid-template-columns: 280px minmax(0,1fr);
+      min-height: 600px;
+    }
+
+    .sidebar {
+      border-right: 1px solid var(--line);
+      background: rgba(255,255,255,0.015);
+      padding: 24px 18px;
+    }
+
+    .avatar {
+      width: 74px;
+      height: 74px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 16px;
+      font-size: 28px;
+      font-weight: 600;
+      background: linear-gradient(135deg, rgba(216,60,78,0.3), rgba(255,255,255,0.04));
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .title {
+      text-align: center;
+      margin: 0 0 22px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .nav {
+      display: grid;
+      gap: 8px;
+    }
+
+    .nav a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 12px;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      color: var(--muted);
+      text-decoration: none;
+      background: rgba(255,255,255,0.01);
+    }
+
+    .nav a.active {
+      color: var(--text);
+      border-color: rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.025);
+    }
+
+    .main {
+      padding: 28px;
+    }
+
+    .demo-notice {
+      margin-bottom: 16px;
+      padding: 12px 14px;
+      border: 1px solid #63323a;
+      border-radius: 10px;
+      background: #1a1013;
+      color: #e8d9db;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .demo-notice strong { color: #ffadb4; }
+
+    .welcome {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 24px;
+      padding: 20px 22px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(178, 41, 58, 0.08), rgba(17, 21, 27, 0.76));
+    }
+
+    .welcome h1 {
+      margin: 0 0 6px;
+      font-size: clamp(26px, 3vw, 38px);
+      letter-spacing: -0.05em;
+      font-weight: 600;
+    }
+
+    .welcome p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #dfe7ef;
+      font-size: 12px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.025);
+      border-radius: 999px;
+      padding: 8px 12px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #e5c982;
+      box-shadow: 0 0 12px rgba(229,201,130,0.45);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.015);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 18px 18px 16px;
+    }
+
+    .card-label {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .card strong {
+      display: block;
+      margin-top: 12px;
+      font-size: 28px;
+      letter-spacing: -0.04em;
+    }
+
+    .card small {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .details {
+      margin-top: 20px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      background: rgba(255,255,255,0.015);
+    }
+
+    .details h2 {
+      margin: 0 0 16px;
+      font-size: 18px;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 0;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .info-row:first-of-type { border-top: 0; }
+    .info-row span:last-child { color: var(--text); }
+    .profile-form, .watchlist-form { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; }
+    .profile-form label, .watchlist-form label { display: grid; flex: 1 1 220px; gap: 6px; color: var(--muted); font-size: 13px; }
+    .profile-form input, .watchlist-form input { min-height: 40px; padding: 9px 11px; border: 1px solid var(--line); border-radius: 8px; background: #090c10; color: var(--text); }
+    .saved-items { display: grid; gap: 8px; padding: 0; list-style: none; }
+    .saved-items li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); }
+    .saved-items a { color: var(--text); text-decoration: none; }
+    .saved-items a:hover { color: #ff929b; }
+    .saved-items button { border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; background: transparent; color: var(--text); cursor: pointer; }
+    .moderation-item { align-items: start !important; }
+    .moderation-item p { margin: 5px 0 0; color: var(--muted); font-size: 12px; }
+    .moderation-item > div:last-child { display: flex; flex-wrap: wrap; gap: 8px; }
+    .account-message { min-height: 20px; color: var(--muted); font-size: 13px; }
+    .account-message[data-state="error"] { color: #ff929b; }
+    .account-message[data-state="success"] { color: #83e4aa; }
+
+    @media (max-width: 760px) {
+      .content { grid-template-columns: 1fr; }
+      .sidebar { border-right: 0; border-bottom: 1px solid var(--line); }
+      .grid { grid-template-columns: 1fr; }
+      .welcome { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <a href="index.html" class="brand" aria-label="KRONOS Home">
+        <span class="brand-mark">Ω</span>
+        <span>KRONOS</span>
+      </a>
+      <div>
+        <p id="logoutMessage" role="status" aria-live="polite"></p>
+        <button class="ghost-btn" type="button" id="logoutButton">Sign out</button>
+      </div>
+    </header>
+
+    <div class="content">
+      <aside class="sidebar">
+        <div class="avatar">KR</div>
+        <p class="title" id="accountTitle">KRONOS account</p>
+        <nav class="nav">
+          <a class="active" href="#overview">Overview <span>›</span></a>
+          <a href="#portfolio">Portfolio <span>›</span></a>
+          <a href="#watchlist">Watchlist <span>›</span></a>
+          <a href="login.html">Security <span>›</span></a>
+        </nav>
+      </aside>
+
+      <main class="main" id="overview">
+        <p class="demo-notice" id="demoNotice"><strong>Account notice:</strong> KRONOS does not hold account funds or provide a portfolio service. A connected wallet is separate from your account.</p>
+        <section class="welcome">
+          <div>
+            <h1>Account overview</h1>
+            <p>No KRONOS-held account balance or portfolio service is configured. Connected wallet balances are shown separately below.</p>
+          </div>
+          <div class="status" id="accountStatus"><span class="dot"></span> Account</div>
+        </section>
+
+        <section class="grid" id="portfolio" aria-label="Portfolio status">
+          <article class="card">
+            <div class="card-label">Connected wallet · native asset only</div>
+            <strong id="walletPortfolioValue">Unavailable</strong>
+            <small id="walletPortfolioDescription">Connect a supported EVM wallet. ERC-20 holdings are not included.</small>
+          </article>
+          <article class="card">
+            <div class="card-label">Native asset market change · 24h</div>
+            <strong id="walletPortfolioChange">Unavailable</strong>
+            <small>Public market reference movement, not account P&amp;L or trading performance.</small>
+          </article>
+          <article class="card">
+            <div class="card-label">Security</div>
+            <strong id="securityStatus">Account session</strong>
+            <small id="securityDescription">Authentication is handled by the configured account provider.</small>
+          </article>
+        </section>
+
+        <section class="details" id="profile">
+          <h2>Profile settings</h2>
+          <form class="profile-form" id="profileForm">
+            <label for="profileDisplayName">Display name<input id="profileDisplayName" name="display_name" maxlength="80" required autocomplete="name"></label>
+            <button class="ghost-btn" id="saveProfileButton" type="submit">Save profile</button>
+          </form>
+          <p class="account-message" id="profileMessage" role="status" aria-live="polite"></p>
+        </section>
+
+        <section class="details" id="account-details">
+          <h2>Account details</h2>
+          <div class="info-row"><span>Signed-in email</span><span id="accountEmail">Not signed in</span></div>
+          <div class="info-row"><span>Connected wallet (not an account balance)</span><span id="accountWalletValue">Not connected</span></div>
+          <div class="info-row"><span>Wallet network</span><span id="accountWalletNetwork">Not connected</span></div>
+          <div class="info-row"><span>Native wallet balance</span><span id="accountWalletBalance">Not connected</span></div>
+          <p><button class="ghost-btn" id="accountWalletConnect" type="button" data-wallet-connect>Connect Wallet</button><div id="walletMessage" class="wallet-message" aria-live="polite"></div> <button class="ghost-btn" id="accountWalletDisconnect" type="button" data-wallet-disconnect hidden>Disconnect Wallet</button></p>
+        </section>
+
+        <section class="details" id="watchlist">
+          <h2>My watchlist</h2>
+          <p>Track CoinGecko asset IDs. Watchlist entries are saved to your KRONOS account; they are not recommendations or proof of trade availability.</p>
+          <form class="watchlist-form" id="watchlistForm">
+            <label for="watchlistCoinId">CoinGecko asset ID<input id="watchlistCoinId" name="coin_id" required maxlength="100" pattern="[A-Za-z0-9-]+" placeholder="e.g. bitcoin"></label>
+            <button class="ghost-btn" id="addWatchlistButton" type="submit">Add asset</button>
+          </form>
+          <p class="account-message" id="watchlistMessage" role="status" aria-live="polite"></p>
+          <ul class="saved-items" id="watchlistItems"></ul>
+        </section>
+
+        <section class="details" id="projectSubmissions">
+          <h2>My project submissions</h2>
+          <p class="account-message" id="submissionStatus" role="status" aria-live="polite">Loading submissions…</p>
+          <ul class="saved-items" id="submissionItems"></ul>
+        </section>
+
+        <section class="details" id="projectModeration" hidden>
+          <h2>Project moderation</h2>
+          <p>Review pending community submissions. Approval publishes the submitted details; it is not an independent safety review or endorsement.</p>
+          <p class="account-message" id="moderationStatus" role="status" aria-live="polite">Loading pending submissions…</p>
+          <ul class="saved-items" id="moderationItems"></ul>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="assets/js/wallet-connect.js"></script>
+  <script type="module">
+    import { getSupabaseClient } from './assets/js/supabase-client.js';
+
+    let supabase = null;
+    let authenticatedUser = null;
+    try {
+      supabase = await getSupabaseClient();
+      if (supabase) {
+        const { data, error } = await supabase.auth.getSession();
+        if (error) throw error;
+        authenticatedUser = data.session?.user || null;
+      }
+    } catch (error) {
+      document.getElementById('logoutMessage').textContent = error instanceof Error
+        ? `Could not verify the account session: ${error.message}`
+        : 'Could not verify the account session.';
+    }
+
+    if (!authenticatedUser) {
+      window.location.replace('login.html');
+    }
+
+    if (authenticatedUser) {
+      document.getElementById('accountEmail').textContent = authenticatedUser.email || 'Email unavailable';
+      document.getElementById('demoNotice').hidden = true;
+      document.getElementById('accountStatus').lastChild.textContent = ' Signed in';
+      document.getElementById('securityStatus').textContent = 'Authenticated';
+      document.getElementById('securityDescription').textContent = 'Your account is authenticated by the configured provider.';
+    }
+
+    async function loadProfile() {
+      const message = document.getElementById('profileMessage');
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('display_name')
+        .eq('id', authenticatedUser.id)
+        .maybeSingle();
+      if (error) throw error;
+      if (!data) throw new Error('Your profile could not be found. Check that the profile-creation migration is installed.');
+      const displayName = data.display_name || authenticatedUser.email || 'KRONOS member';
+      document.getElementById('profileDisplayName').value = data.display_name || '';
+      document.getElementById('accountTitle').textContent = displayName;
+      document.getElementById('profileForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const button = document.getElementById('saveProfileButton');
+        const nextName = document.getElementById('profileDisplayName').value.trim();
+        if (!nextName) {
+          message.dataset.state = 'error';
+          message.textContent = 'Enter a display name.';
+          return;
+        }
+        button.disabled = true;
+        message.textContent = 'Saving profile…';
+        try {
+          const { data: updated, error: updateError } = await supabase
+            .from('profiles')
+            .update({ display_name: nextName })
+            .eq('id', authenticatedUser.id)
+            .select('display_name')
+            .maybeSingle();
+          if (updateError) throw updateError;
+          if (!updated) throw new Error('No profile was updated. Check profile permissions and migration status.');
+          document.getElementById('accountTitle').textContent = updated.display_name;
+          message.dataset.state = 'success';
+          message.textContent = 'Profile saved.';
+        } catch (error) {
+          message.dataset.state = 'error';
+          message.textContent = error instanceof Error ? error.message : 'Could not save your profile.';
+        } finally {
+          button.disabled = false;
+        }
+      });
+    }
+
+    async function loadWatchlist() {
+      const list = document.getElementById('watchlistItems');
+      const message = document.getElementById('watchlistMessage');
+      const { data, error } = await supabase
+        .from('watchlist_items')
+        .select('coin_id,created_at')
+        .order('created_at', { ascending: false });
+      if (error) throw error;
+      list.replaceChildren();
+      if (!data?.length) {
+        message.textContent = 'Your watchlist is empty.';
+        return;
+      }
+      message.textContent = `${data.length} saved asset${data.length === 1 ? '' : 's'}.`;
+      data.forEach((item) => {
+        const row = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = `token.html?id=${encodeURIComponent(item.coin_id)}`;
+        link.textContent = item.coin_id;
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.textContent = 'Remove';
+        remove.setAttribute('aria-label', `Remove ${item.coin_id} from watchlist`);
+        remove.addEventListener('click', async () => {
+          remove.disabled = true;
+          try {
+            const { error: removeError } = await supabase
+              .from('watchlist_items')
+              .delete()
+              .eq('user_id', authenticatedUser.id)
+              .eq('coin_id', item.coin_id);
+            if (removeError) throw removeError;
+            await loadWatchlist();
+          } catch (error) {
+            message.dataset.state = 'error';
+            message.textContent = error instanceof Error ? error.message : 'Could not update your watchlist.';
+            remove.disabled = false;
+          }
+        });
+        row.append(link, remove);
+        list.append(row);
+      });
+    }
+
+    async function loadSubmissions() {
+      const list = document.getElementById('submissionItems');
+      const message = document.getElementById('submissionStatus');
+      const { data, error } = await supabase
+        .from('project_submissions')
+        .select('id,name,symbol,status,created_at')
+        .order('created_at', { ascending: false })
+        .limit(100);
+      if (error) throw error;
+      list.replaceChildren();
+      if (!data?.length) {
+        message.textContent = 'You have not submitted any projects.';
+        return;
+      }
+      message.textContent = 'Submission statuses are provided by the KRONOS review workflow.';
+      data.forEach((item) => {
+        const row = document.createElement('li');
+        const title = document.createElement('span');
+        title.textContent = `${item.name} (${item.symbol})`;
+        const state = document.createElement('strong');
+        state.textContent = item.status === 'approved' ? 'Approved' : item.status === 'rejected' ? 'Not approved' : 'Pending review';
+        row.append(title, state);
+        list.append(row);
+      });
+    }
+
+    async function loadPendingSubmissions() {
+      const list = document.getElementById('moderationItems');
+      const message = document.getElementById('moderationStatus');
+      const { data, error } = await supabase
+        .from('project_submissions')
+        .select('id,name,symbol,blockchain,contract,website,category,description,created_at')
+        .eq('status', 'pending')
+        .order('created_at', { ascending: true })
+        .limit(100);
+      if (error) throw error;
+      list.replaceChildren();
+      if (!data?.length) {
+        message.textContent = 'There are no pending project submissions.';
+        return;
+      }
+      message.textContent = `${data.length} pending submission${data.length === 1 ? '' : 's'}.`;
+      data.forEach((item) => {
+        const row = document.createElement('li');
+        row.className = 'moderation-item';
+        const details = document.createElement('div');
+        const title = document.createElement('strong');
+        title.textContent = `${item.name} (${item.symbol})`;
+        const summary = document.createElement('p');
+        summary.textContent = `${item.blockchain} · ${item.contract} · ${item.category}`;
+        details.append(title, summary);
+        const actions = document.createElement('div');
+        const approve = document.createElement('button');
+        approve.type = 'button';
+        approve.textContent = 'Approve';
+        const reject = document.createElement('button');
+        reject.type = 'button';
+        reject.textContent = 'Reject';
+        async function review(status) {
+          approve.disabled = true;
+          reject.disabled = true;
+          message.textContent = `Saving ${status} decision…`;
+          try {
+            const { data: updated, error: updateError } = await supabase
+              .from('project_submissions')
+              .update({ status })
+              .eq('id', item.id)
+              .eq('status', 'pending')
+              .select('id')
+              .maybeSingle();
+            if (updateError) throw updateError;
+            if (!updated) throw new Error('This submission changed before your decision was saved. Reload and review it again.');
+            await Promise.all([loadPendingSubmissions(), loadSubmissions()]);
+          } catch (error) {
+            message.dataset.state = 'error';
+            message.textContent = error instanceof Error ? error.message : 'Could not save the moderation decision.';
+            approve.disabled = false;
+            reject.disabled = false;
+          }
+        }
+        approve.addEventListener('click', () => review('approved'));
+        reject.addEventListener('click', () => review('rejected'));
+        actions.append(approve, reject);
+        row.append(details, actions);
+        list.append(row);
+      });
+    }
+
+    if (authenticatedUser) {
+      for (const [loader, messageId] of [
+        [loadProfile, 'profileMessage'],
+        [loadWatchlist, 'watchlistMessage'],
+        [loadSubmissions, 'submissionStatus']
+      ]) {
+        try {
+          await loader();
+        } catch (error) {
+          const message = document.getElementById(messageId);
+          message.dataset.state = 'error';
+          message.textContent = error instanceof Error ? error.message : 'Account data is currently unavailable.';
+        }
+      }
+
+      if (authenticatedUser.app_metadata?.role === 'admin') {
+        const moderation = document.getElementById('projectModeration');
+        moderation.hidden = false;
+        try {
+          await loadPendingSubmissions();
+        } catch (error) {
+          const message = document.getElementById('moderationStatus');
+          message.dataset.state = 'error';
+          message.textContent = error instanceof Error ? error.message : 'Pending submissions could not be loaded.';
+        }
+      }
+
+      document.getElementById('watchlistForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const input = document.getElementById('watchlistCoinId');
+        const coinId = input.value.trim();
+        const message = document.getElementById('watchlistMessage');
+        const button = document.getElementById('addWatchlistButton');
+        if (!/^[a-zA-Z0-9-]{1,100}$/.test(coinId)) {
+          message.dataset.state = 'error';
+          message.textContent = 'Enter a valid CoinGecko asset ID.';
+          return;
+        }
+        button.disabled = true;
+        message.textContent = 'Checking asset and saving…';
+        try {
+          const response = await fetch(`/api/v1/market/coins/${encodeURIComponent(coinId)}`);
+          if (!response.ok) throw new Error(response.status === 404 ? 'That market asset was not found.' : 'Could not verify this asset with the market-data provider.');
+          const { error } = await supabase.from('watchlist_items').insert({
+            user_id: authenticatedUser.id,
+            coin_id: coinId
+          });
+          if (error?.code === '23505') throw new Error('That asset is already on your watchlist.');
+          if (error) throw error;
+          input.value = '';
+          message.dataset.state = 'success';
+          await loadWatchlist();
+        } catch (error) {
+          message.dataset.state = 'error';
+          message.textContent = error instanceof Error ? error.message : 'Could not add this asset.';
+        } finally {
+          button.disabled = false;
+        }
+      });
+    }
+
+    const knownNetworks = new Map([
+      [1, 'Ethereum Mainnet'], [56, 'BNB Smart Chain'], [137, 'Polygon'],
+      [42161, 'Arbitrum One'], [8453, 'Base'], [43114, 'Avalanche C-Chain'], [10, 'Optimism']
+    ]);
+    const nativeAssets = new Map([
+      [1, { coinId: 'ethereum', symbol: 'ETH' }],
+      [56, { coinId: 'binancecoin', symbol: 'BNB' }],
+      [137, { coinId: 'polygon-ecosystem-token', symbol: 'POL' }],
+      [42161, { coinId: 'ethereum', symbol: 'ETH' }],
+      [8453, { coinId: 'ethereum', symbol: 'ETH' }],
+      [43114, { coinId: 'avalanche-2', symbol: 'AVAX' }],
+      [10, { coinId: 'ethereum', symbol: 'ETH' }]
+    ]);
+    let walletRefreshGeneration = 0;
+    async function updateWalletDetails() {
+      const generation = ++walletRefreshGeneration;
+      const accountWalletValue = document.getElementById('accountWalletValue');
+      const walletAddress = localStorage.getItem('krnoWalletAddress');
+      const walletChainId = localStorage.getItem('krnoWalletChainId');
+      const numericChainId = walletChainId ? Number.parseInt(walletChainId, 16) : NaN;
+      accountWalletValue.textContent = walletAddress ? `${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}` : 'Not connected';
+      document.getElementById('accountWalletNetwork').textContent = Number.isInteger(numericChainId)
+        ? `${knownNetworks.get(numericChainId) || 'Unsupported network'} (chain ID ${numericChainId})`
+        : 'Not connected';
+      document.getElementById('accountWalletDisconnect').hidden = !walletAddress;
+      document.getElementById('accountWalletConnect').hidden = Boolean(walletAddress);
+      const balance = document.getElementById('accountWalletBalance');
+      const portfolioValue = document.getElementById('walletPortfolioValue');
+      const portfolioChange = document.getElementById('walletPortfolioChange');
+      const portfolioDescription = document.getElementById('walletPortfolioDescription');
+      portfolioValue.textContent = 'Unavailable';
+      portfolioChange.textContent = 'Unavailable';
+      if (!walletAddress) portfolioDescription.textContent = 'Connect a supported EVM wallet. ERC-20 holdings are not included.';
+      else portfolioDescription.textContent = 'Reading the connected wallet native balance and public market reference…';
+      let provider;
+      try {
+        provider = await window.KronosWallet.getProviderAsync();
+      } catch (error) {
+        balance.textContent = 'Wallet session could not be restored';
+        portfolioDescription.textContent = error instanceof Error
+          ? error.message
+          : 'Reconnect the wallet to read its native balance.';
+        return;
+      }
+      if (!walletAddress || !provider || !Number.isInteger(numericChainId)) {
+        balance.textContent = walletAddress ? 'Reconnect wallet to read its balance' : 'Not connected';
+        if (walletAddress) portfolioDescription.textContent = 'Reconnect the saved wallet session to read its native balance.';
+        return;
+      }
+      const asset = nativeAssets.get(numericChainId);
+      if (!asset) {
+        balance.textContent = 'Unsupported network';
+        portfolioDescription.textContent = 'Native portfolio value is available only on supported EVM networks.';
+        return;
+      }
+      try {
+        const hexBalance = await provider.request({ method: 'eth_getBalance', params: [walletAddress, 'latest'] });
+        const wei = BigInt(hexBalance);
+        const whole = wei / 10n ** 18n;
+        const fraction = (wei % 10n ** 18n).toString().padStart(18, '0').slice(0, 6).replace(/0+$/, '');
+        const tokenAmount = Number(whole) + Number(`0.${(wei % 10n ** 18n).toString().padStart(18, '0')}`);
+        balance.textContent = `${whole}${fraction ? `.${fraction}` : ''} ${asset.symbol} · live from connected wallet`;
+        const priceResponse = await fetch(`/api/v1/market/coins/${encodeURIComponent(asset.coinId)}`);
+        if (!priceResponse.ok) throw new Error('The public native asset market price is unavailable.');
+        const coin = await priceResponse.json();
+        const price = coin.market_data?.current_price?.usd;
+        const change = coin.market_data?.price_change_percentage_24h;
+        if (generation !== walletRefreshGeneration) return;
+        if (typeof price !== 'number' || !Number.isFinite(price) || price < 0) {
+          throw new Error('The public native asset market price is unavailable.');
+        }
+        portfolioValue.textContent = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+          maximumFractionDigits: 2
+        }).format(tokenAmount * price);
+        portfolioDescription.textContent = `${whole}${fraction ? `.${fraction}` : ''} ${asset.symbol} × public CoinGecko reference price. Native asset only; other wallet holdings are excluded.`;
+        portfolioChange.textContent = typeof change === 'number' && Number.isFinite(change)
+          ? `${change > 0 ? '+' : ''}${change.toFixed(2)}%`
+          : 'Unavailable';
+      } catch (error) {
+        if (generation !== walletRefreshGeneration) return;
+        balance.textContent = 'Wallet balance is currently unavailable';
+        portfolioDescription.textContent = error instanceof Error
+          ? `Could not load a current wallet balance and public market reference price: ${error.message}`
+          : 'Could not load a current wallet balance and public market reference price.';
+      }
+    }
+    updateWalletDetails();
+    window.addEventListener('kronos:walletChanged', updateWalletDetails);
+
+    document.getElementById('logoutButton').addEventListener('click', async function () {
+      if (supabase && authenticatedUser) {
+        try {
+          const { error } = await supabase.auth.signOut();
+          if (error) throw error;
+        } catch (error) {
+          document.getElementById('logoutMessage').textContent = error instanceof Error
+            ? `Could not sign out: ${error.message}`
+            : 'Could not sign out. Please try again.';
+          return;
+        }
+      }
+      localStorage.removeItem('krnoLoggedIn');
+      localStorage.removeItem('krnoDemoAccount');
+      window.location.replace('login.html');
+    });
+  </script>
+</body>
+</html>

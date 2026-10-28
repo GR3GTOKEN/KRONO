@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050709">
+  <title>Trading — KRONOS</title>
+  <link rel="stylesheet" href="assets/css/market.css?v=trading-3">
+  <link rel="stylesheet" href="assets/css/wallet-connect.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="KRONOS home"><span class="brand-mark" aria-hidden="true">Ω</span><span class="brand-name">KRONOS</span></a>
+    <nav class="top-links" aria-label="Main navigation">
+      <a href="discover.html">Discover</a><a href="trade.html" class="active" aria-current="page">Trading</a><a href="swap.html">Swap</a><a href="listings.html">Listings</a><a href="listings.html#submit-project">Promote</a><a href="launch.html">Platform status</a><a href="index.html#research">Research</a>
+    </nav>
+    <div class="header-tools"><button class="wallet-pill" type="button" data-wallet-connect aria-label="Connect Wallet"><span class="wallet-dot"></span><span data-wallet-label>Connect Wallet</span></button></div><div id="walletMessage" class="wallet-message" aria-live="polite"></div>
+  </header>
+  <aside class="sidebar">
+    <nav class="side-nav" aria-label="Dashboard navigation">
+      <a class="side-link" href="index.html"><span class="side-icon">⌂</span>Home</a>
+      <a class="side-link" href="discover.html"><span class="side-icon">◉</span>Discover</a>
+      <a class="side-link active" href="trade.html" aria-current="page"><span class="side-icon">⌁</span>Trading</a>
+      <a class="side-link" href="swap.html"><span class="side-icon">⇄</span>Swap</a>
+      <a class="side-link" href="listings.html"><span class="side-icon">♧</span>Listings</a>
+      <a class="side-link" href="launch.html"><span class="side-icon">◉</span>Platform status</a>
+    </nav>
+    <nav class="side-nav secondary" aria-label="Your account"><a class="side-link" href="login.html"><span class="side-icon">♙</span>Account</a></nav>
+  </aside>
+  <main class="workspace">
+    <div class="page">
+      <header class="trade-terminal-header">
+        <div class="trade-title-block"><div class="eyebrow">Market terminal</div><h1>Trading</h1></div>
+        <div class="trade-market-strip">
+          <div class="trade-market-identity"><span class="trade-market-live" aria-hidden="true"></span><div><strong id="tradeAssetName">Bitcoin (BTC)</strong><span>USD reference market</span></div></div>
+          <div class="trade-strip-stat"><span>Last price</span><strong id="tradeAssetPrice">Loading…</strong></div>
+          <div class="trade-strip-stat"><span>24h change</span><strong id="tradeChange">—</strong></div>
+          <div class="trade-strip-stat"><span>24h volume</span><strong id="tradeVolume">—</strong></div>
+          <div class="trade-strip-stat"><span>Market cap</span><strong id="tradeMarketCap">—</strong></div>
+          <div class="trade-strip-stat trade-updated"><span>Updated</span><strong id="tradeUpdated">—</strong></div>
+          <a class="button trade-details-link" id="tradeTokenLink" href="token.html?id=bitcoin">Asset details</a>
+        </div>
+      </header>
+      <section class="trade-toolbar" aria-label="Market controls">
+        <div class="trade-search-card">
+          <label class="trade-search-label" for="tradeSearch">Market</label>
+          <div class="trade-search-wrap">
+            <input class="control trade-search" type="search" id="tradeSearch" autocomplete="off" aria-controls="tradeSearchResults" aria-expanded="false" aria-autocomplete="list" placeholder="Search markets">
+            <div class="trade-search-results" id="tradeSearchResults" role="listbox" aria-label="Market asset search results" hidden></div>
+          </div>
+          <p class="trade-control-note">CoinGecko USD reference data · Not an executable pair</p>
+        </div>
+      </section>
+      <section class="trade-terminal-grid" aria-label="Selected market">
+        <section class="card trade-chart-card" aria-labelledby="tradeChartTitle">
+          <div class="trade-panel-heading">
+            <div><span class="trade-panel-kicker">Price chart</span><h2 id="tradeChartTitle">Bitcoin / USD</h2></div>
+            <label class="trade-period"><span class="sr-only">Candlestick period</span>
+              <select class="control" id="tradePeriod" aria-label="Candlestick period"><option value="1">1 day</option><option value="7">7 days</option></select>
+            </label>
+          </div>
+          <p class="trade-chart-disclaimer">Provider OHLC candles · USD reference only · Not an order-book price</p>
+          <div class="trade-chart-status market-status" id="tradeChartStatus" role="status" aria-live="polite"><span class="loading">Loading candlestick data…</span></div>
+          <div class="trade-chart-scroll"><svg id="tradeCandles" class="trade-candles" viewBox="0 0 1000 360" role="img" aria-label="Bitcoin candlestick chart"></svg></div>
+          <div class="trade-chart-legend"><span><i class="trade-candle-up"></i> Provider OHLC</span><span id="tradeChartUpdated">—</span></div>
+        </section>
+        <section class="card trade-orderbook-card" aria-labelledby="tradeOrderbookTitle">
+          <div class="trade-panel-heading"><div><span class="trade-panel-kicker">Market depth</span><h2 id="tradeOrderbookTitle">Order book</h2></div><span class="trade-unavailable-tag">Unavailable</span></div>
+          <div class="trade-book-columns" aria-hidden="true"><span>Price (USD)</span><span>Size</span><span>Total</span></div>
+          <div class="trade-book-empty">
+            <span class="trade-empty-mark" aria-hidden="true">—</span>
+            <strong>No order book connected</strong>
+            <p>KRONOS does not operate an exchange or order-matching service. No bids, asks, or depth are fabricated.</p>
+          </div>
+          <div class="trade-reference-price"><span>Market reference</span><strong id="tradeBookPrice">—</strong></div>
+        </section>
+        <aside class="card trade-order-card" aria-labelledby="tradeOrderTitle">
+          <div class="trade-panel-heading"><div><span class="trade-panel-kicker">Spot</span><h2 id="tradeOrderTitle">Buy / sell</h2></div><span class="trade-unavailable-tag">Disabled</span></div>
+          <div class="trade-order-tabs" aria-label="Unavailable trading actions"><button type="button" class="active" disabled aria-disabled="true">Buy</button><button type="button" disabled aria-disabled="true">Sell</button></div>
+          <p class="trade-order-notice">Order execution is not available. This interface cannot place, sign, or track a trade. No simulated orders or activity are shown.</p>
+          <label class="trade-order-label" for="tradeOrderAmount">Order amount</label>
+          <div class="trade-order-input"><input id="tradeOrderAmount" type="text" placeholder="Unavailable" disabled aria-disabled="true"><span>USD</span></div>
+          <div class="trade-order-summary"><span>Execution price</span><strong>Unavailable</strong><span>Fees and minimum received</span><strong>Unavailable</strong></div>
+          <button class="button trade-submit-disabled" type="button" disabled aria-disabled="true">Trading unavailable</button>
+          <a class="button trade-swap-link" href="swap.html">View same-chain swap quotes</a>
+          <p class="trade-order-footnote">Quote review only. Swap approval, signing, submission, and receipt tracking are not implemented.</p>
+        </aside>
+        <section class="card trade-activity-card" aria-labelledby="tradeActivityTitle">
+          <div class="trade-activity-tabs"><h2 id="tradeActivityTitle">Activity</h2><span class="trade-activity-tab active">Execution history</span></div>
+          <div class="trade-activity-head"><span>Asset</span><span>Type</span><span>Status</span><span>Amount</span></div>
+          <div class="trade-activity-empty">No KRONOS executions. Wallet transaction history, order-book fills, and simulated activity are not shown.</div>
+          <p class="trade-activity-note">Market data is supplied by CoinGecko. Prices and candles may be delayed and do not guarantee liquidity or an executable price.</p>
+        </section>
+      </section>
+    </div>
+  </main>
+  <script src="assets/js/market-api.js"></script>
+  <script src="assets/js/trade.js"></script>
+  <script src="assets/js/wallet-connect.js"></script>
+</body>
+</html>

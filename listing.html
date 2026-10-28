@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050709">
+  <title>Project — KRONOS</title>
+  <link rel="stylesheet" href="assets/css/market.css">
+  <link rel="stylesheet" href="assets/css/wallet-connect.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="KRONOS home"><span class="brand-mark" aria-hidden="true">Ω</span><span class="brand-name">KRONOS</span></a>
+    <nav class="top-links" aria-label="Main navigation"><a href="discover.html">Discover</a><a href="trade.html">Trading</a><a href="swap.html">Swap</a><a href="listings.html" class="active">Listings</a><a href="listings.html#submit-project">Promote</a><a href="launch.html">Platform status</a><a href="index.html#research">Research</a></nav>
+    <div class="header-tools"><button class="wallet-pill" type="button" data-wallet-connect aria-label="Connect Wallet"><span class="wallet-dot"></span><span data-wallet-label>Connect Wallet</span></button></div><div id="walletMessage" class="wallet-message" aria-live="polite"></div>
+  </header>
+  <aside class="sidebar"><nav class="side-nav" aria-label="Dashboard navigation"><a class="side-link" href="index.html"><span class="side-icon">⌂</span>Home</a><a class="side-link" href="discover.html"><span class="side-icon">◉</span>Discover</a><a class="side-link active" href="listings.html"><span class="side-icon">♧</span>Listings</a><a class="side-link" href="listings.html#submit-project"><span class="side-icon">⌁</span>Promote</a><a class="side-link" href="index.html#research"><span class="side-icon">◈</span>Research</a></nav><nav class="side-nav secondary" aria-label="Your account"><a class="side-link" href="login.html"><span class="side-icon">♙</span>Account</a></nav></aside>
+  <main class="workspace"><div class="page">
+    <p><a class="view-link" href="listings.html">← Back to Listings</a></p>
+    <div class="market-status" id="listingDetailStatus" role="status" aria-live="polite"><span class="loading">Loading project data...</span></div>
+    <section id="listingDetail" hidden>
+      <header class="page-heading"><div class="token-header"><span class="asset-logo" id="projectLogo"></span><div><h1 id="projectName">Project</h1><div class="asset-symbol" id="projectSymbol"></div></div></div></header>
+      <div class="market-status"><span class="listing-tag" id="projectBadge"></span><span id="projectMetadataLabel"></span></div>
+      <section class="token-stats" aria-label="Project market data"><article class="token-stat"><span>Price</span><strong id="projectPrice">—</strong></article><article class="token-stat"><span>24h change</span><strong id="projectChange">—</strong></article><article class="token-stat"><span>Market cap</span><strong id="projectMarketCap">—</strong></article><article class="token-stat"><span>24h volume</span><strong id="projectVolume">—</strong></article></section>
+      <div class="project-info"><section class="card"><h2>Project overview</h2><div class="project-description" id="projectDescription"></div></section><section class="card"><h2>Project details</h2><div class="info-row"><span>Category</span><span id="projectCategory"></span></div><div class="info-row"><span>Blockchain</span><span id="projectChain"></span></div><div class="info-row"><span>Contract</span><span id="projectContract"></span></div><div class="project-links" id="projectLinks"></div></section></div>
+    </section>
+    <section class="card empty-state" id="listingError" hidden><strong>Project unavailable</strong><span id="listingErrorText"></span><p><a class="button" href="listings.html">Return to Listings</a></p></section>
+    <p class="fine-print">Demo entries are not verified or promoted by KRONOS. Market information comes from CoinGecko; submission previews are only kept in this browser tab.</p>
+  </div></main>
+  <script src="assets/js/market-api.js"></script><script src="assets/js/listings.js"></script>  <script type="module" src="assets/js/listing-detail.js"></script><script src="assets/js/wallet-connect.js"></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050709">
+  <title>Project Listings — KRONOS</title>
+  <link rel="stylesheet" href="assets/css/market.css">
+  <link rel="stylesheet" href="assets/css/wallet-connect.css">
+  <style>
+    .listing-tools { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 14px; }
+    .listing-tools .search-control { flex: 1 1 280px; width: auto; }
+    .listing-tools select { flex: 0 0 190px; }
+    .listing-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; }
+    .listing-card { display: flex; flex-direction: column; min-height: 206px; padding: 15px; transition: border-color .16s ease, transform .16s ease; }
+    .listing-card:hover { transform: translateY(-2px); border-color: #73313a; }
+    .listing-card-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .listing-tag { padding: 4px 7px; border: 1px solid #513039; border-radius: 12px; color: #d9959b; font-size: 9px; }
+    .listing-card h2 { margin: 14px 0 6px; font-size: 15px; font-weight: 550; }
+    .listing-card p { flex: 1; margin: 0; color: #a7afb7; font-size: 11px; line-height: 1.55; }
+    .listing-meta { display: flex; justify-content: space-between; gap: 8px; margin-top: 14px; padding-top: 11px; border-top: 1px solid #1c2228; color: #9aa2ab; font-size: 10px; }
+    .listing-market { display: flex; justify-content: space-between; gap: 10px; margin-top: 11px; font-size: 11px; }
+    .listing-market span:last-child { text-align: right; }
+    .submission { margin-top: 22px; padding: 18px; }
+    .submission h2 { margin: 0 0 7px; font-size: 21px; font-weight: 700; }
+    .submission > p { margin: 0 0 15px; color: var(--muted); font-size: 11px; line-height: 1.6; }
+    .submission-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
+    .form-field { display: grid; gap: 6px; color: #aeb5bd; font-size: 11px; }
+    .form-field input, .form-field select, .form-field textarea { width: 100%; min-height: 38px; padding: 9px 10px; border: 1px solid #2c333b; border-radius: 6px; background: #090c10; }
+    .form-field textarea { min-height: 78px; resize: vertical; }
+    .form-field.wide { grid-column: 1 / -1; }
+    .submission-footer { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 13px; }
+    .submission-message { color: var(--muted); font-size: 11px; line-height: 1.5; }
+    .submission-message[data-state="success"] { color: var(--green); }
+    .submission-message[data-state="error"] { color: #ff929b; }
+    @media (max-width: 900px) { .listing-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+    @media (max-width: 620px) {
+      .listing-grid { grid-template-columns: 1fr; }
+      .listing-tools select { flex: 1 1 130px; }
+      .submission-grid { grid-template-columns: 1fr; }
+      .form-field.wide { grid-column: auto; }
+      .submission-footer { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="KRONOS home"><span class="brand-mark" aria-hidden="true">Ω</span><span class="brand-name">KRONOS</span></a>
+    <nav class="top-links" aria-label="Main navigation">
+      <a href="discover.html">Discover</a><a href="trade.html">Trading</a><a href="swap.html">Swap</a><a href="listings.html" class="active">Listings</a><a href="listings.html#submit-project">Promote</a><a href="launch.html">Platform status</a><a href="index.html#research">Research</a>
+    </nav>
+    <div class="header-tools"><button class="wallet-pill" type="button" data-wallet-connect aria-label="Connect Wallet"><span class="wallet-dot"></span><span data-wallet-label>Connect Wallet</span></button></div><div id="walletMessage" class="wallet-message" aria-live="polite"></div>
+  </header>
+  <aside class="sidebar">
+    <nav class="side-nav" aria-label="Dashboard navigation">
+      <a class="side-link" href="index.html"><span class="side-icon">⌂</span>Home</a><a class="side-link" href="discover.html"><span class="side-icon">◉</span>Discover</a><a class="side-link" href="trade.html"><span class="side-icon">⌁</span>Trading</a><a class="side-link" href="swap.html"><span class="side-icon">⇄</span>Swap</a>
+      <a class="side-link active" href="listings.html"><span class="side-icon">♧</span>Listings</a><a class="side-link" href="listings.html#submit-project"><span class="side-icon">⌁</span>Promote</a>
+      <a class="side-link" href="index.html#research"><span class="side-icon">◈</span>Research</a>
+    </nav>
+    <nav class="side-nav secondary" aria-label="Your account"><a class="side-link" href="login.html"><span class="side-icon">♙</span>Account</a></nav>
+  </aside>
+  <main class="workspace">
+    <div class="page">
+      <header class="page-heading"><div><div class="eyebrow">Project directory</div><h1>Explore listings</h1><p>Discover projects and their current market data. Demo entries are examples, not KRONOS-verified or newly listed projects.</p></div><a class="button primary" href="#submit-project">Submit a project</a></header>
+      <div class="listing-tools">
+        <label class="control search-control"><input type="search" id="listingSearch" placeholder="Search project or symbol..." aria-label="Search project listings"></label>
+        <select class="control" id="categoryFilter" aria-label="Filter by category"><option value="">All categories</option></select>
+        <select class="control" id="listingSort" aria-label="Sort project listings"><option value="market_cap_desc">Market cap: high to low</option><option value="market_cap_asc">Market cap: low to high</option><option value="name_asc">Name: A to Z</option><option value="name_desc">Name: Z to A</option></select>
+      </div>
+      <p class="fine-print" id="publishedListingStatus" role="status" aria-live="polite">Loading approved community submissions…</p>
+      <div class="market-status" id="listingStatus" role="status" aria-live="polite"><span class="loading">Loading live market data...</span></div>
+      <div class="listing-grid" id="listingGrid"></div>
+      <section class="card submission" id="submit-project">
+        <h2>Submit a project</h2>
+        <p>Submit a project for review. You must be signed in; submissions are stored persistently and are not public unless approved by a KRONOS administrator.</p>
+        <form id="projectForm">
+          <div class="submission-grid">
+            <label class="form-field">Project name<input name="name" required maxlength="80"></label>
+            <label class="form-field">Token symbol<input name="symbol" required maxlength="12"></label>
+            <label class="form-field">Blockchain / network<input name="blockchain" required maxlength="60" placeholder="e.g. Ethereum"></label>
+            <label class="form-field">Contract address<input name="contract" required maxlength="120"></label>
+            <label class="form-field">Website<input name="website" type="url" required placeholder="https://..."></label>
+            <label class="form-field">Logo URL<input name="logo" type="url" required placeholder="https://..."></label>
+            <label class="form-field">Category<select name="category" required><option value="">Select a category</option><option>Layer 1</option><option>DeFi</option><option>Infrastructure</option><option>Payments</option><option>Meme</option><option>Gaming</option><option>Other</option></select></label>
+            <label class="form-field">Contact email<input name="contact" type="email" required></label>
+            <label class="form-field wide">Project description<textarea name="description" required maxlength="1200"></textarea></label>
+          </div>
+          <div class="submission-footer"><span class="submission-message" id="submissionMessage" role="status" aria-live="polite">Example assets are not verified project listings. Approved community submissions are not independently endorsed.</span><button class="button primary" id="submitProjectButton" type="submit">Submit for review</button></div>
+        </form>
+      </section>
+      <p class="fine-print">Live prices, market caps, volume, and token identities are supplied by CoinGecko. Example directory metadata is labeled Demo entry and is not verified by KRONOS. Community submissions appear only after approval and are not independently endorsed.</p>
+    </div>
+  </main>
+  <script src="assets/js/market-api.js"></script>
+  <script type="module" src="assets/js/listings.js"></script>
+  <script src="assets/js/wallet-connect.js"></script>
+</body>
+</html>

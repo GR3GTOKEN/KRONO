@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050709">
+  <title>KRONOS — Crypto Intelligence</title>
+  <link rel="stylesheet" href="assets/css/wallet-connect.css">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #050709;
+      --panel: #080b0e;
+      --panel-2: #0b0e12;
+      --line: #20252b;
+      --muted: #818892;
+      --text: #f1f2f3;
+      --red: #c22d35;
+      --green: #39c985;
+      --sidebar: 196px;
+      --header: 46px;
+      font-family: "Cambria Math", Cambria, "Times New Roman", serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { min-width: 320px; background: var(--bg); }
+    body { margin: 0; color: var(--text); background: var(--bg); font-size: 11px; }
+    button, input { color: inherit; font: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; text-decoration: none; }
+
+    .topbar {
+      height: var(--header);
+      position: fixed;
+      z-index: 10;
+      inset: 0 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      padding: 0 14px 0 20px;
+      background: rgba(5, 7, 9, .97);
+      border-bottom: 1px solid #1c2025;
+    }
+    .brand { width: 166px; flex: 0 0 166px; display: flex; align-items: center; gap: 9px; }
+    .brand-mark { color: #d23c45; font-family: "Cambria Math", Cambria, "Times New Roman", serif; font-size: 35px; line-height: 1; transform: scaleX(.86); text-shadow: 0 0 12px #be273a70; }
+    .brand-name { font-size: 16px; font-weight: 700; letter-spacing: 5px; }
+    .top-links { display: flex; align-items: center; gap: 28px; white-space: nowrap; color: #c4c7cb; font-weight: 600; }
+    .top-links a:hover, .top-links a.active { color: #fff; }
+    .header-tools { margin-left: auto; display: flex; align-items: center; gap: 14px; }
+    .home-search { position: relative; }
+    .search { height: 28px; width: min(240px, 22vw); display: flex; align-items: center; gap: 8px; padding: 0 10px; border: 1px solid #30353c; border-radius: 7px; color: #777e87; }
+    .search input { width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; font-size: 9px; }
+    .search-results { position: absolute; z-index: 20; top: calc(100% + 6px); left: 0; width: min(360px, 88vw); max-height: 320px; overflow: auto; padding: 5px; border: 1px solid #30353c; border-radius: 7px; background: #0b0e12; box-shadow: 0 12px 32px #000b; }
+    .search-results button { display: flex; width: 100%; justify-content: space-between; gap: 12px; padding: 9px; border: 0; border-radius: 4px; background: transparent; color: var(--text); text-align: left; cursor: pointer; }
+    .search-results button:hover, .search-results button:focus-visible { background: #20252b; }
+    .search-results small { color: var(--muted); }
+    .icon-button { width: 24px; height: 28px; padding: 0; border: 0; background: transparent; color: #aeb4bb; font-size: 15px; position: relative; }
+    .notification::after { content: ""; width: 5px; height: 5px; border-radius: 50%; background: #cf3541; position: absolute; top: 4px; right: 3px; }
+    .wallet-pill { display: flex; align-items: center; gap: 7px; height: 28px; padding: 0 9px; border: 1px solid #292e35; border-radius: 8px; background: #0b0e12; font-size: 9px; white-space: nowrap; }
+    .wallet-avatar { width: 14px; height: 14px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ff8a72, #80202a 65%, #281317); }
+    .chevron { color: #777e87; }
+
+    .sidebar {
+      position: fixed;
+      z-index: 5;
+      inset: var(--header) auto 0 0;
+      width: var(--sidebar);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 14px 13px 17px 17px;
+      background: #07090c;
+      border-right: 1px solid #1d2228;
+    }
+    .side-nav { display: grid; gap: 3px; }
+    .side-nav.secondary { margin-top: 15px; padding-top: 12px; border-top: 1px solid #272c32; }
+    .side-link { min-height: 31px; display: flex; align-items: center; gap: 12px; padding: 0 9px; border-radius: 4px; color: #b3b8bf; font-size: 11px; }
+    .side-link:hover { color: white; background: #171a1e; }
+    .side-link.active { color: #fff; background: linear-gradient(90deg, #53171d 0%, #211315 100%); }
+    .side-icon { width: 15px; text-align: center; color: #b8bdc4; font-size: 14px; }
+    .side-link.active .side-icon { color: #f3d8d9; }
+    .side-art {
+      margin: auto -13px -17px -17px;
+      min-height: 310px;
+      position: relative;
+      background:
+        linear-gradient(0deg, #07090c 0%, #07090c0d 75%),
+        linear-gradient(0deg, #08090b 0%, transparent 64%),
+        url("assets/kronos-side.jpeg") center / cover,
+                radial-gradient(ellipse at 48% 70%, #5b1119 0%, #180a10 48%, #07090c 78%);
+    }
+
+    .side-caption { position: absolute; left: 12px; right: 12px; bottom: 18px; text-align: center; text-transform: uppercase; letter-spacing: 2px; font-size: 7px; line-height: 1.9; color: #d0d1d3; }
+    .side-caption strong { display: block; font-size: 8px; letter-spacing: 2.7px; }
+    .side-caption span { color: #94989e; letter-spacing: 1.4px; }
+
+    .workspace { margin-left: var(--sidebar); padding-top: var(--header); min-height: 100vh; }
+    .dashboard { display: grid; grid-template-columns: minmax(0, 1fr) 250px; gap: 14px; max-width: 1600px; margin: 0 auto; padding: 14px 12px 22px 19px; }
+    .main-column, .right-column { min-width: 0; }
+    .hero {
+      height: 240px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      border: 1px solid #211a1d;
+      background: url("assets/kronos%20main.png") right top / cover no-repeat;
+      background-size: auto 170%;
+    }
+
+    .hero-copy { position: relative; z-index: 1; width: min(56%, 440px); margin-left: 14px; padding: 10px 0; }
+    .eyebrow { color: #cb4650; font-weight: 700; letter-spacing: 3px; font-size: 12px; }
+    .hero h1 { margin: 5px 0 8px; font-size: clamp(30px, 3.2vw, 43px); line-height: .99; font-weight: 700; letter-spacing: -1.5px; }
+    .hero p { margin: 0; max-width: 330px; color: #c5c7ca; font-size: 10px; line-height: 1.65; }
+    .hero-actions { display: flex; gap: 13px; margin-top: 17px; }
+    .button { min-height: 32px; display: inline-flex; align-items: center; justify-content: center; gap: 9px; padding: 0 14px; border: 1px solid #41464d; border-radius: 6px; background: #0a0d10c9; color: #e2e4e6; font-size: 9px; transition: .18s ease; }
+    .button:hover { border-color: #878d95; transform: translateY(-1px); }
+    .button.primary { border-color: #b42c35; background: linear-gradient(135deg, #d23a43, #a51e28); box-shadow: 0 5px 16px #bd263125; }
+    .hero-note { position: absolute; z-index: 1; right: 12px; top: 21px; color: #c0b6b7; font-size: 8px; line-height: 1.8; letter-spacing: 2px; text-align: center; }
+    .hero-note strong { display: block; font-size: 8px; font-weight: 500; }
+
+    .stats { display: grid; grid-template-columns: 1.17fr 1fr 1fr 1fr .9fr; gap: 8px; margin-top: 14px; }
+    .stat-card, .panel { min-width: 0; border: 1px solid var(--line); border-radius: 6px; background: linear-gradient(145deg, #0b0e12, #080a0d); }
+    .stat-card { height: 65px; display: flex; align-items: center; gap: 8px; padding: 8px 10px; overflow: hidden; }
+    .stat-label { color: #9da3aa; font-size: 9px; white-space: nowrap; }
+    .stat-value { margin-top: 3px; font-weight: 600; font-size: 13px; white-space: nowrap; }
+    .trend { color: var(--green); font-size: 9px; white-space: nowrap; }
+    .trend.negative { color: #ff818a; }
+    .coin-icon { width: 20px; height: 20px; flex: 0 0 20px; display: grid; place-items: center; border-radius: 50%; color: white; background: #f7931a; font-size: 12px; font-weight: 700; }
+    .coin-icon.eth { background: linear-gradient(145deg, #8897f9, #5064cf); }
+    .sparkline { width: 62px; height: 26px; margin-left: auto; overflow: visible; }
+    .sparkline path { fill: none; stroke: #43c481; stroke-width: 1.4; }
+    .fear-meter { position: relative; width: 38px; height: 23px; margin: 6px 0 0 auto; overflow: hidden; }
+    .fear-meter::before { content: ""; position: absolute; width: 38px; height: 38px; top: 0; border: 3px solid #252b31; border-bottom-color: #252b31; border-left-color: #3bbd86; border-top-color: #58c782; border-right-color: #b4c944; border-radius: 50%; transform: rotate(-39deg); }
+    .fear-needle { position: absolute; left: 18px; bottom: 0; width: 2px; height: 17px; background: #72d99b; transform-origin: bottom; transform: rotate(26deg); }
+    .map-card { position: relative; overflow: hidden; }
+    .map-card::after { content: ""; position: absolute; inset: 14px 0 0; opacity: .28; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 55'%3E%3Cpath fill='%236b747b' d='m9 10 14-6 15 5 5 8 17-3 6 7 13-2 8 9-9 7-17-2-8 7-15-4-7-8-14-2-6-10zm72 8 8-5 15 2 7 8-9 8-12-2zm23 24 11-5 16 3-2 7-18 3z'/%3E%3C/svg%3E") center / contain no-repeat; }
+
+    .content-grid { display: grid; grid-template-columns: minmax(0, 1fr) 195px; gap: 12px; margin-top: 13px; }
+    .panel { padding: 10px; }
+    .panel-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
+    .panel-heading h2 { margin: 0; font-size: 14px; font-weight: 550; letter-spacing: -.2px; }
+    .view-link { color: #c46b70; font-size: 9px; white-space: nowrap; }
+    .view-link:hover { color: #f08a91; }
+    .tabs { display: flex; align-items: center; gap: 4px; }
+    .tab { border: 0; border-radius: 4px; padding: 5px 7px; background: transparent; color: #8d949c; font-size: 8px; white-space: nowrap; }
+    .tab:hover, .tab.selected { background: #20252b; color: #f0f1f2; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; text-align: left; white-space: nowrap; }
+    th { padding: 0 4px 8px; color: #90969e; font-size: 8px; font-weight: 450; }
+    td { height: 34px; padding: 4px; border-top: 1px solid #1b2026; font-size: 9px; }
+    .rank { width: 25px; color: #c1c5ca; }
+    .asset-name { display: flex; align-items: center; gap: 7px; font-weight: 500; }
+    .ticker { color: #858c94; font-size: 8px; }
+    .token { width: 19px; height: 19px; flex: 0 0 19px; display: inline-grid; place-items: center; border-radius: 50%; color: white; font-size: 11px; font-weight: 700; background: #f39a27; }
+    .token.eth { background: linear-gradient(145deg, #8492f4, #465dc5); }
+    .token.bnb { color: #322308; background: #f2b929; }
+    .token.sol { color: #07100d; background: linear-gradient(145deg, #87f5be, #9568f1); }
+    .token.xrp { background: #303841; }
+    .mini-chart { width: 68px; height: 22px; vertical-align: middle; }
+    .mini-chart path { fill: none; stroke: #43c481; stroke-width: 1.4; }
+    .trade { border: 1px solid #282e34; border-radius: 4px; padding: 4px 9px; background: #11151a; color: #d7d9db; font-size: 8px; }
+    .trade:hover { border-color: #b1353e; color: white; }
+    .dashboard-notice { margin: 0 0 12px; padding: 10px 12px; border: 1px solid #63323a; border-radius: 6px; background: #1a1013; color: #e8d9db; font-size: 10px; line-height: 1.5; }
+    .dashboard-notice strong { color: #ffadb4; }
+    .dashboard-notice[data-state="error"] { border-color: #63323a; color: #ffadb4; }
+    .dashboard-notice[data-state="success"] { border-color: #24553c; color: #b3e9c8; }
+    .dashboard-notice button { float: right; border: 1px solid #454b53; border-radius: 4px; padding: 3px 7px; background: #15191e; color: var(--text); cursor: pointer; }
+    .market-list .panel-heading { margin-bottom: 11px; }
+    .market-list .panel-heading h2 { font-size: 14px; }
+    .market-row { min-height: 35px; display: grid; grid-template-columns: 16px 26px minmax(0,1fr) auto; align-items: center; gap: 5px; border-top: 1px solid #1b2026; }
+    .market-row .token { width: 21px; height: 21px; }
+    .market-row .rank { font-size: 9px; }
+    .market-row .asset-name { min-width: 0; font-size: 9px; }
+    .market-row .trend { font-size: 8px; }
+    .market-price { display: block; margin-top: 1px; color: #7f8790; font-size: 7px; }
+
+    .featured { margin-top: 14px; }
+    .feature-cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+    .feature-card { min-height: 130px; padding: 10px; border: 1px solid #342127; border-radius: 6px; background: radial-gradient(ellipse at 0 0, #201015 0%, #0c0d11 48%); }
+    .feature-top { display: flex; align-items: center; gap: 7px; margin-bottom: 9px; color: #c6a2a5; font-size: 8px; text-transform: uppercase; letter-spacing: .5px; }
+    .feature-symbol { width: 23px; height: 23px; display: grid; place-items: center; border: 1px solid #742933; border-radius: 50%; color: #e7b84c; background: #241b13; font-size: 13px; }
+    .feature-card:nth-child(2) .feature-symbol { color: #f17079; background: #261115; }
+    .feature-card:nth-child(3) .feature-symbol { color: #7ebeff; background: #0e1c2b; }
+    .feature-card:nth-child(4) .feature-symbol { color: #a5c6ff; background: #111a2b; }
+    .feature-card h3 { margin: 0 0 5px; font-size: 10px; font-weight: 550; }
+    .feature-card p { min-height: 29px; margin: 0; color: #a5abb2; font-size: 8px; line-height: 1.5; }
+    .feature-card .feature-asset { color: var(--text); text-decoration: none; }
+    .feature-card .feature-asset:hover { color: #f08a91; }
+    .empty-message { padding: 12px 4px; color: #9da3aa; font-size: 9px; }
+    .market-pagination { display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-top: 8px; color: #9da3aa; font-size: 8px; }
+    .market-pagination button { border: 1px solid #282e34; border-radius: 4px; padding: 4px 7px; background: #11151a; color: var(--text); cursor: pointer; }
+    .market-pagination button:disabled { opacity: .45; cursor: not-allowed; }
+    .provider-attribution { margin: 9px 0 0; color: #818891; font-size: 8px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+    .chip { padding: 2px 5px; border-radius: 8px; background: #1a1e23; color: #b6bbc1; font-size: 7px; }
+    .details { display: inline-block; margin-top: 7px; color: #d26b72; font-size: 8px; }
+    .intelligence {
+      min-height: 58px; margin-top: 12px; padding: 9px 12px; display: flex; align-items: center; gap: 12px;
+      background:
+        linear-gradient(90deg, #080a0d 0%, #080a0da8 48%, #080a0d70 100%),
+        url("assets/kronos-B.jpeg") center 55% / cover,
+        linear-gradient(100deg, #130d10, #36131a 53%, #0b0d11);
+    }
+    .intelligence h2 { margin: 0 0 4px; font-size: 17px; font-weight: 700; }
+    .intelligence p { margin: 0; color: #aeb3b9; font-size: 9px; }
+    .intelligence .button { margin-left: auto; flex: 0 0 auto; }
+
+    .right-column { display: flex; flex-direction: column; gap: 12px; }
+    .wallet-card {
+      min-height: 105px; display: flex; align-items: center; gap: 12px; padding: 13px;
+      background:
+        linear-gradient(90deg, #0a0c0f 5%, #0a0c0fdd 58%, #0a0c0f88),
+        url("assets/kronos-B.jpeg") center / cover,
+        linear-gradient(130deg, #180d11, #381319);
+    }
+    .wallet-illustration { width: 39px; height: 30px; flex: 0 0 39px; position: relative; border-radius: 5px; background: linear-gradient(135deg, #f4d8d2, #bca9a6); box-shadow: 0 5px 17px #0009; }
+    .wallet-illustration::after { content: ""; position: absolute; right: -2px; top: 9px; width: 13px; height: 11px; border-radius: 3px; background: #d7c0bc; border: 1px solid #9c8381; }
+    .wallet-illustration::before { content: ""; position: absolute; z-index: 1; right: 2px; top: 13px; width: 4px; height: 4px; border-radius: 50%; background: #765658; }
+    .wallet-copy { min-width: 0; }
+    .wallet-copy h2 { margin: 0 0 5px; font-size: 11px; font-weight: 550; }
+    .wallet-copy p { margin: 0 0 8px; color: #a6abb2; font-size: 8px; white-space: nowrap; }
+    .wallet-copy .button { min-height: 27px; width: 100%; padding: 0 8px; font-size: 8px; }
+    .trending-panel { padding: 11px; }
+    .time-tabs { display: flex; padding: 2px; border: 1px solid #262c32; border-radius: 5px; }
+    .time-tabs .tab { padding: 4px 5px; }
+    .trending-panel .market-row { grid-template-columns: 14px 25px minmax(0,1fr) auto; min-height: 35px; }
+    .trending-panel .token { width: 20px; height: 20px; }
+    .trending-panel .market-price { display: inline; margin-left: 4px; color: #c5c9ce; font-size: 8px; }
+    .news-panel { flex: 1; padding: 11px; }
+    .news-panel .panel-heading { margin-bottom: 2px; }
+    .news-item { display: grid; grid-template-columns: 46px minmax(0,1fr); gap: 8px; min-height: 65px; align-items: center; border-top: 1px solid #1b2026; }
+    .news-thumb { height: 43px; border-radius: 3px; background:
+      linear-gradient(0deg, #07090b8c, transparent),
+      url("assets/kronos-B.jpeg") center / cover,
+      radial-gradient(ellipse at 70% 70%, #a82b35, #241016 55%, #0a0c10); }
+    .news-item:nth-of-type(3) .news-thumb { background-image: linear-gradient(0deg, #07090b8c, transparent), linear-gradient(145deg, #2c223e, #0d2424); }
+    .news-item:nth-of-type(4) .news-thumb { background-image: linear-gradient(0deg, #07090b8c, transparent), linear-gradient(145deg, #1e3651, #17221d); }
+    .news-item:nth-of-type(5) .news-thumb { background-image: linear-gradient(0deg, #07090b8c, transparent), linear-gradient(145deg, #454064, #11151c); }
+    .news-item h3 { margin: 0 0 5px; font-size: 8px; line-height: 1.45; font-weight: 500; }
+    .news-item p { margin: 0; color: #818891; font-size: 7px; }
+    .news-source { color: #abb1b8; }
+    .mobile-menu { display: none; }
+
+    @media (min-width: 1500px) {
+      .dashboard { grid-template-columns: minmax(0, 1fr) 285px; padding-left: 22px; padding-right: 18px; }
+      .content-grid { grid-template-columns: minmax(0,1fr) 220px; }
+    }
+    @media (max-width: 1120px) {
+      :root { --sidebar: 176px; }
+      .topbar { gap: 18px; }
+      .brand { width: 150px; flex-basis: 150px; }
+      .top-links { gap: 18px; }
+      .dashboard { grid-template-columns: minmax(0, 1fr) 220px; gap: 10px; padding-left: 13px; }
+      .content-grid { grid-template-columns: minmax(0, 1fr); }
+      .market-list { display: none; }
+      .stats { grid-template-columns: repeat(4, minmax(0,1fr)); }
+      .map-card { display: none; }
+      .stat-card { padding: 7px; }
+      .stat-card:last-child { grid-column: span 1; }
+      .feature-cards { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .feature-card { min-height: 118px; }
+    }
+    @media (max-width: 820px) {
+      :root { --sidebar: 58px; }
+      .sidebar { align-items: center; padding: 13px 7px; }
+      .side-link { width: 40px; justify-content: center; padding: 0; font-size: 0; }
+      .side-icon { font-size: 16px; }
+      .side-nav.secondary { margin-top: 12px; padding-top: 9px; }
+      .side-art { width: calc(100% + 14px); min-height: 130px; margin: auto -7px -13px; }
+      .side-caption { display: none; }
+      .brand { width: auto; flex: 0 0 auto; }
+      .brand-name { font-size: 14px; letter-spacing: 3px; }
+      .topbar { gap: 17px; }
+      .top-links { gap: 13px; font-size: 9px; }
+      .dashboard { grid-template-columns: minmax(0, 1fr); padding: 11px; }
+      .right-column { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); align-items: start; }
+      .news-panel { grid-column: 1 / -1; }
+      .news-panel .news-item { grid-template-columns: 60px minmax(0,1fr); }
+      .news-thumb { height: 48px; }
+      .content-grid { grid-template-columns: minmax(0, 1fr) 195px; }
+      .market-list { display: block; }
+      .stats { grid-template-columns: repeat(4, minmax(0,1fr)); }
+    }
+    @media (max-width: 600px) {
+      :root { --sidebar: 0px; --header: 52px; }
+      .topbar { gap: 10px; padding: 0 12px; }
+      .brand-mark { font-size: 30px; }
+      .brand-name { font-size: 12px; letter-spacing: 2px; }
+      .top-links { display: none; }
+      .search { width: min(180px, 37vw); height: 29px; }
+      .header-tools { gap: 7px; }
+      .wallet-pill { width: 31px; justify-content: center; padding: 0; }
+      .wallet-pill > span:not(.wallet-avatar):not(.chevron) { display: none; }
+      .wallet-pill .chevron { display: none; }
+      .sidebar { display: none; }
+      .dashboard { padding: 10px; gap: 11px; }
+      .hero { min-height: 230px; height: auto; }
+      .hero-copy { width: 75%; margin: 15px 0 15px 13px; }
+      .hero h1 { font-size: clamp(31px, 9vw, 40px); }
+      .hero p { max-width: 255px; font-size: 9px; }
+      .hero-note { top: 12px; right: 8px; font-size: 6px; letter-spacing: 1px; }
+      .hero-note strong { font-size: 6px; }
+      .hero-actions { gap: 7px; flex-wrap: wrap; margin-top: 13px; }
+      .button { min-height: 30px; padding: 0 10px; }
+      .stats { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 7px; margin-top: 9px; }
+      .stat-card { height: 58px; padding: 7px 9px; }
+      .stat-card:nth-child(5) { display: none; }
+      .stat-label { font-size: 8px; }
+      .stat-value { font-size: 12px; }
+      .content-grid { grid-template-columns: minmax(0,1fr); margin-top: 10px; }
+      .market-list { display: none; }
+      .panel { padding: 9px; }
+      .panel-heading h2 { font-size: 13px; }
+      .panel-heading { gap: 4px; }
+      .tabs { gap: 1px; }
+      .tab { padding: 5px 5px; font-size: 7px; }
+      th { font-size: 7px; }
+      td { font-size: 8px; }
+      .table-wrap table { min-width: 515px; }
+      .feature-cards { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 7px; }
+      .feature-card { padding: 8px; min-height: 135px; }
+      .intelligence { flex-wrap: wrap; gap: 8px; }
+      .intelligence h2 { font-size: 15px; }
+      .intelligence p { max-width: 230px; font-size: 8px; }
+      .intelligence .button { margin-left: auto; }
+      .right-column { grid-template-columns: minmax(0,1fr); gap: 9px; }
+      .news-panel { grid-column: auto; }
+      .wallet-card { min-height: 95px; }
+      .trending-panel { display: none; }
+      .news-item { min-height: 68px; grid-template-columns: 58px minmax(0,1fr); }
+      .news-thumb { height: 48px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="KRONOS home">
+      <span class="brand-mark" aria-hidden="true">Ω</span>
+      <span class="brand-name">KRONOS</span>
+    </a>
+
+    <div class="header-tools">
+      <div class="home-search">
+        <label class="search" for="homeSearchInput">
+          <span aria-hidden="true">⌕</span>
+          <input id="homeSearchInput" type="search" autocomplete="off" aria-controls="homeSearchResults" aria-expanded="false" placeholder="Search crypto assets...">
+        </label>
+        <div class="search-results" id="homeSearchResults" role="listbox" aria-label="Crypto asset search results" hidden></div>
+      </div>
+      <button class="wallet-pill" type="button" data-wallet-connect aria-label="Connect Wallet">
+        <span class="wallet-avatar"></span><span data-wallet-label>Connect Wallet</span>
+      </button>
+    </div>
+  </header>
+
+  <aside class="sidebar">
+    <nav class="side-nav" aria-label="Dashboard navigation">
+      <a class="side-link active" href="index.html"><span class="side-icon">⌂</span>Home</a>
+      <a class="side-link" href="discover.html"><span class="side-icon">◉</span>Discover</a>
+      <a class="side-link" href="trade.html"><span class="side-icon">⌁</span>Trading</a>
+      <a class="side-link" href="swap.html"><span class="side-icon">⇄</span>Swap</a>
+      <a class="side-link" href="listings.html"><span class="side-icon">♧</span>Listings</a>
+      <a class="side-link" href="launch.html"><span class="side-icon">◉</span>Platform status</a>
+    </nav>
+    <nav class="side-nav secondary" aria-label="Your account">
+      <a class="side-link" href="account.html#watchlist"><span class="side-icon">☆</span>Watchlist</a>
+      <a class="side-link" href="account.html#portfolio"><span class="side-icon">▣</span>Portfolio</a>
+      <a class="side-link" href="login.html"><span class="side-icon">♙</span>Account</a>
+    </nav>
+    <div class="side-art" role="img" aria-label="Decorative KRONOS artwork">
+      <div class="side-caption"><strong>Asia's crypto<br>intelligence platform</strong><span>Discover · Analyze · Trade · Build</span></div>
+    </div>
+  </aside>
+
+  <main class="workspace">
+    <div class="dashboard">
+      <div class="main-column">
+        <p class="dashboard-notice" id="dashboardStatus" role="status" aria-live="polite"><strong>Market data:</strong> Loading public data from CoinGecko...</p>
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero-copy">
+            <div class="eyebrow">KRONOS</div>
+            <h1 id="hero-title">The Next Wave<br>Starts Here</h1>
+            <p>Explore public crypto market data and token information.<br>Market listings are informational, not trading recommendations.</p>
+            <div class="hero-actions">
+              <a class="button primary" href="discover.html">Explore Markets <span aria-hidden="true">→</span></a>
+              <a class="button" href="launch.html">Platform status</a>
+            </div>
+          </div>
+          <div class="hero-note"><strong>BETTER</strong>DATA<br><strong> BIGGER</strong><br>OPPORTUNITIES</div>
+        </section>
+
+        <section class="stats" aria-label="Live global market statistics">
+          <article class="stat-card">
+            <div><div class="stat-label">Global Market Cap</div><div class="stat-value" id="globalMarketCap">—</div><div class="trend" id="globalMarketCapChange">Waiting for provider</div></div>
+          </article>
+          <article class="stat-card"><span class="coin-icon">₿</span><div><div class="stat-label">Bitcoin</div><div class="stat-value" id="bitcoinPrice">—</div><div class="trend" id="bitcoinChange">Waiting for provider</div></div></article>
+          <article class="stat-card"><span class="coin-icon eth">♦</span><div><div class="stat-label">Ethereum</div><div class="stat-value" id="ethereumPrice">—</div><div class="trend" id="ethereumChange">Waiting for provider</div></div></article>
+          <article class="stat-card"><div><div class="stat-label">BTC Dominance</div><div class="stat-value" id="bitcoinDominance">—</div><div class="trend">Global share</div></div></article>
+          <article class="stat-card"><div><div class="stat-label">Active Assets</div><div class="stat-value" id="activeAssets">—</div><div class="trend">Provider reported</div></div></article>
+        </section>
+
+        <div class="content-grid">
+          <section class="panel" id="markets">
+            <div class="panel-heading">
+              <h2>Market Overview</h2>
+              <div class="tabs market-tabs" role="tablist" aria-label="Market filters">
+                <button class="tab selected" type="button" role="tab" data-market-filter="all" aria-selected="true">Top market cap</button>
+                <button class="tab" type="button" role="tab" data-market-filter="gainers" aria-selected="false">Top gainers</button>
+                <button class="tab" type="button" role="tab" data-market-filter="losers" aria-selected="false">Top losers</button>
+              </div>
+              <a class="view-link" href="#markets">View All →</a>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>#</th><th>Name</th><th>Price</th><th>24h Change</th><th>Market Cap</th><th>Volume (24h)</th><th>7D Chart</th></tr></thead>
+                <tbody id="homeMarketRows"><tr><td colspan="7" class="empty-message">Loading live market data…</td></tr></tbody>
+              </table>
+            </div>
+            <div class="market-pagination" id="homePagination"><button type="button" id="homePrevious" disabled>Previous</button><span id="homePageLabel">Loading…</span><button type="button" id="homeNext" disabled>Next</button></div>
+            <p class="provider-attribution">Market data provided by <a href="https://www.coingecko.com/" target="_blank" rel="noopener noreferrer">CoinGecko</a>. Public market data is informational and may be delayed.</p>
+          </section>
+          <section class="panel market-list" aria-labelledby="gainers-title">
+            <div class="panel-heading"><h2 id="gainers-title">Top Gainers · 24h · top 100 assets</h2></div>
+            <div id="homeGainers" aria-live="polite"><p class="empty-message">Loading live market data…</p></div>
+          </section>
+        </div>
+
+        <section class="featured" id="listings">
+          <div class="panel-heading"><h2>Market Movers</h2><a class="view-link" href="discover.html">Explore live markets →</a></div>
+          <p class="dashboard-notice">KRONOS does not currently verify, endorse, or publish featured project promotions.</p>
+        </section>
+
+        <section class="panel intelligence" id="discover" aria-labelledby="research">
+          <div><h2 id="research">Market data</h2><p>Explore provider-backed public crypto prices and asset details.</p></div>
+          <a class="button" href="discover.html">Explore markets <span aria-hidden="true">→</span></a>
+        </section>
+      </div>
+
+      <aside class="right-column">
+        <section class="panel wallet-card">
+          <div class="wallet-illustration" aria-hidden="true"></div>
+          <div class="wallet-copy"><h2>Connect Wallet</h2><p>Unlock full access to KRONOS</p><button class="button primary" id="connectButton" type="button" data-wallet-connect>Connect Wallet</button><div id="walletMessage" class="wallet-message" aria-live="polite"></div></div>
+        </section>
+        <section class="panel trending-panel" aria-labelledby="trendingTitle">
+          <div class="panel-heading"><h2 id="trendingTitle">Trending searches</h2></div>
+          <div id="homeTrending" aria-live="polite"><p class="empty-message">Loading provider trending data…</p></div>
+          <p class="provider-attribution">Trending rank is supplied by CoinGecko; it is not a trade recommendation.</p>
+        </section>
+        <section class="panel news-panel">
+          <div class="panel-heading"><h2>Market data status</h2></div>
+          <p class="empty-message">KRONOS does not currently provide a verified news feed. No news stories are shown as current.</p>
+          <a class="view-link" href="launch.html">View integration status →</a>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    document.querySelectorAll(".side-nav .side-link").forEach((link) => {
+      link.addEventListener("click", () => {
+        document.querySelectorAll(".side-nav .side-link").forEach((item) => item.classList.remove("active"));
+        link.classList.add("active");
+      });
+    });
+
+  </script>
+  <script src="assets/js/market-api.js"></script>
+  <script src="assets/js/home.js"></script>
+  <script src="assets/js/wallet-connect.js"></script>
+</body>
+</html>

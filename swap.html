@@ -1,0 +1,1143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050709">
+  <title>Swap — KRONOS</title>
+  <link rel="stylesheet" href="assets/css/market.css">
+  <link rel="stylesheet" href="assets/css/wallet-connect.css">
+  <style>
+    .swap-page {
+      padding-top: 72px;
+    }
+
+    .swap-intro {
+      max-width: 650px;
+      margin-bottom: 36px;
+    }
+
+    .swap-intro h1 {
+      margin-bottom: 14px;
+    }
+
+    .swap-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+      gap: 20px;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .swap-card,
+    .swap-aside {
+      padding: 24px;
+    }
+
+    .swap-card-head {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .swap-card-head h2 {
+      margin: 4px 0 0;
+    }
+
+    .swap-kicker {
+      color: var(--muted);
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+    }
+
+    .network-status {
+      color: var(--green);
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+
+    .network-status i {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      margin-right: 6px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    .swap-field {
+      display: flex;
+      align-items: end;
+      gap: 12px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    .swap-field > div {
+      flex: 1;
+    }
+
+    .swap-field label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .swap-field input,
+    .swap-field select,
+    .swap-network-select {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--text);
+    }
+
+    .swap-field input {
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+
+    .swap-field select,
+    .swap-network-select {
+      max-width: 155px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--panel-strong);
+    }
+
+    .swap-direction {
+      display: block;
+      width: 34px;
+      height: 34px;
+      margin: -4px auto;
+      position: relative;
+      z-index: 1;
+      border: 1px solid var(--line-strong);
+      border-radius: 50%;
+      background: var(--panel-strong);
+      color: var(--primary);
+    }
+
+    .swap-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 18px 0 8px;
+    }
+
+    .swap-capability-notice {
+      flex: 1;
+      min-height: 18px;
+      color: var(--muted);
+      font-size: 0.72rem;
+      line-height: 1.5;
+    }
+
+    .swap-network-select {
+      width: 170px;
+      max-width: 170px;
+    }
+
+    .swap-summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 20px 0;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+    }
+
+    .swap-summary span {
+      display: grid;
+      gap: 4px;
+      color: var(--muted);
+      font-size: 0.7rem;
+    }
+
+    .swap-summary strong {
+      color: var(--text);
+      font-size: 0.75rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .swap-submit {
+      width: 100%;
+    }
+
+    .swap-submit:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+    }
+
+    .swap-status {
+      min-height: 20px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.72rem;
+      line-height: 1.5;
+    }
+
+    .swap-status.is-error {
+      color: #ff9aa4;
+    }
+
+    .swap-status.is-pending {
+      color: #f3d68b;
+    }
+
+    .swap-status.is-success {
+      color: var(--green);
+    }
+
+    .swap-note {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 0.72rem;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .swap-aside h2 {
+      margin-top: 18px;
+      font-size: 2rem;
+    }
+
+    .swap-stat {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 0;
+      border-top: 1px solid var(--line);
+      color: var(--text-soft);
+      font-size: 0.78rem;
+    }
+
+    .swap-stat strong {
+      color: var(--text);
+    }
+
+    @media (max-width: 800px) {
+      .command-hero {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        min-height: auto;
+        padding-top: 38px;
+      }
+
+      .hero-copy {
+        margin-top: 0;
+      }
+
+      .activity-panel {
+        max-width: 560px;
+      }
+
+      .spotlight-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .spotlight-panel > .activity-panel {
+        border-top: 1px solid var(--line);
+        border-left: 0;
+      }
+
+      .chain-strip-note {
+        display: none;
+      }
+
+      .swap-page {
+        padding-top: 42px;
+      }
+
+      .swap-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .swap-card,
+      .swap-aside {
+        padding: 18px;
+      }
+
+      .swap-field select,
+      .swap-network-select {
+        max-width: 135px;
+      }
+
+      .swap-meta {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .swap-network-select {
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+  </style>
+  <style>
+    :root {
+      color-scheme: dark;
+      --swap-bg: #08090c;
+      --swap-surface: #101216;
+      --swap-surface-raised: #15181e;
+      --swap-line: #262a32;
+      --swap-text: #f4f4f6;
+      --swap-muted: #9298a3;
+      --swap-red: #e14a56;
+      --swap-red-soft: #8c2731;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+
+    html {
+      min-width: 320px;
+      background: var(--swap-bg);
+    }
+
+    body {
+      min-width: 320px;
+      margin: 0;
+      color: var(--swap-text);
+      background:
+        radial-gradient(ellipse at 50% 0, rgba(117, 29, 40, .18), transparent 36rem),
+        var(--swap-bg);
+      font-size: 14px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    a:focus-visible {
+      outline: 2px solid #f1767e;
+      outline-offset: 3px;
+    }
+
+    .page-shell {
+      min-height: 100vh;
+    }
+
+    .site-header {
+      position: sticky;
+      z-index: 20;
+      top: 0;
+      border-bottom: 1px solid rgba(255, 255, 255, .07);
+      background: rgba(8, 9, 12, .88);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav.container {
+      width: min(1240px, calc(100% - 48px));
+      min-height: 72px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 34px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      flex: 0 0 auto;
+      color: var(--swap-text);
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border: 1px solid rgba(225, 74, 86, .5);
+      border-radius: 10px;
+      background: linear-gradient(145deg, rgba(225, 74, 86, .22), rgba(225, 74, 86, .04));
+      color: #ff7a83;
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: -.06em;
+      box-shadow: 0 0 24px rgba(225, 74, 86, .12);
+    }
+
+    .brand-text {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .22em;
+    }
+
+    .desktop-nav {
+      display: flex;
+      align-items: center;
+      gap: clamp(16px, 2.3vw, 30px);
+      min-width: 0;
+    }
+
+    .desktop-nav a,
+    .mobile-menu a {
+      color: #aeb2bb;
+      font-size: 12px;
+      font-weight: 550;
+      text-decoration: none;
+      transition: color .18s ease;
+    }
+
+    .desktop-nav a:hover,
+    .desktop-nav a[href="./swap.html"],
+    .mobile-menu a:hover {
+      color: #fff;
+    }
+
+    .desktop-nav a[href="./swap.html"] {
+      position: relative;
+    }
+
+    .desktop-nav a[href="./swap.html"]::after {
+      position: absolute;
+      right: 0;
+      bottom: -27px;
+      left: 0;
+      height: 2px;
+      background: var(--swap-red);
+      content: "";
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-left: auto;
+    }
+
+    .icon-button {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      place-items: center;
+      padding: 0;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      background: transparent;
+      color: #aeb2bb;
+    }
+
+    .icon-button:hover {
+      border-color: var(--swap-line);
+      background: var(--swap-surface);
+      color: #fff;
+    }
+
+    .icon-button svg {
+      width: 19px;
+      height: 19px;
+      fill: currentColor;
+    }
+
+    .wallet-button {
+      min-height: 38px;
+      padding: 0 15px;
+      border: 1px solid rgba(225, 74, 86, .55);
+      border-radius: 10px;
+      background: linear-gradient(135deg, #c83c49, #892832);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      box-shadow: 0 7px 22px rgba(160, 36, 49, .2);
+      cursor: pointer;
+      transition: transform .18s ease, filter .18s ease;
+    }
+
+    .wallet-button:hover {
+      filter: brightness(1.12);
+      transform: translateY(-1px);
+    }
+
+    .language-selector {
+      position: relative;
+    }
+
+    .language-toggle {
+      min-height: 38px;
+      padding: 0 10px;
+      border: 1px solid var(--swap-line);
+      border-radius: 10px;
+      background: var(--swap-surface);
+      color: #c8cbd1;
+      font-size: 11px;
+    }
+
+    .language-menu {
+      display: none;
+    }
+
+    .menu-toggle {
+      display: none;
+      width: 38px;
+      height: 38px;
+      padding: 10px;
+      border: 1px solid var(--swap-line);
+      border-radius: 10px;
+      background: var(--swap-surface);
+    }
+
+    .menu-toggle span {
+      display: block;
+      height: 2px;
+      margin: 3px 0;
+      border-radius: 2px;
+      background: #d7d9de;
+    }
+
+    .mobile-menu {
+      display: none;
+    }
+
+    .page-main.container {
+      width: min(1160px, calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    .swap-page {
+      padding-top: clamp(58px, 8vw, 96px);
+      padding-bottom: 90px;
+    }
+
+    .swap-intro {
+      max-width: 720px;
+      margin: 0 auto 38px;
+      text-align: center;
+    }
+
+    .swap-intro .eyebrow,
+    .swap-aside .eyebrow {
+      color: #f06a75;
+      font-size: 10px;
+      font-weight: 750;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+
+    .swap-intro h1 {
+      margin: 14px 0 12px;
+      font-size: clamp(34px, 5vw, 54px);
+      font-weight: 700;
+      letter-spacing: -.055em;
+      line-height: 1.04;
+    }
+
+    .swap-intro p,
+    .swap-aside > p {
+      margin: 0 auto;
+      color: var(--swap-muted);
+      font-size: 14px;
+      line-height: 1.75;
+    }
+
+    .swap-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, .8fr);
+      align-items: stretch;
+      gap: 22px;
+      max-width: 1010px;
+      margin: 0 auto;
+    }
+
+    .swap-card,
+    .swap-aside {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(22px, 3vw, 32px);
+      border: 1px solid rgba(255, 255, 255, .09);
+      border-radius: 20px;
+      background: linear-gradient(155deg, rgba(22, 24, 30, .97), rgba(13, 15, 19, .98));
+      box-shadow: 0 28px 80px rgba(0, 0, 0, .28);
+    }
+
+    .swap-card::before {
+      position: absolute;
+      top: 0;
+      right: 8%;
+      left: 8%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(243, 83, 96, .55), transparent);
+      content: "";
+    }
+
+    .swap-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .swap-kicker {
+      color: #818793;
+      font-size: 9px;
+      font-weight: 750;
+      letter-spacing: .2em;
+    }
+
+    .swap-card-head h2 {
+      margin: 6px 0 0;
+      font-size: 22px;
+      font-weight: 650;
+      letter-spacing: -.03em;
+    }
+
+    .network-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border: 1px solid rgba(225, 74, 86, .24);
+      border-radius: 999px;
+      background: rgba(225, 74, 86, .08);
+      color: #f18a92;
+      font-size: 9px;
+      font-weight: 750;
+      letter-spacing: .1em;
+      white-space: nowrap;
+    }
+
+    .network-status i {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #e85b67;
+      box-shadow: 0 0 12px rgba(232, 91, 103, .8);
+    }
+
+    .swap-field {
+      display: flex;
+      min-height: 104px;
+      align-items: center;
+      gap: 14px;
+      padding: 17px 18px;
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: 15px;
+      background: rgba(5, 7, 10, .56);
+      transition: border-color .18s ease, background .18s ease;
+    }
+
+    .swap-field:focus-within {
+      border-color: rgba(225, 74, 86, .56);
+      background: rgba(9, 10, 14, .8);
+    }
+
+    .swap-field > div {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .swap-field label {
+      display: block;
+      margin-bottom: 12px;
+      color: #858b96;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .swap-field input {
+      width: 100%;
+      min-width: 0;
+      padding: 0;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: #f4f4f6;
+      font-size: clamp(22px, 3vw, 30px);
+      font-weight: 600;
+      letter-spacing: -.04em;
+    }
+
+    .swap-field input::placeholder {
+      color: #555b66;
+    }
+
+    .swap-field select,
+    #swapNetwork {
+      flex: 0 0 auto;
+      max-width: 160px;
+      min-height: 40px;
+      padding: 0 34px 0 13px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 10px;
+      appearance: none;
+      background:
+        linear-gradient(45deg, transparent 50%, #aeb3bc 50%) calc(100% - 16px) 17px / 5px 5px no-repeat,
+        linear-gradient(135deg, #aeb3bc 50%, transparent 50%) calc(100% - 12px) 17px / 5px 5px no-repeat,
+        #1a1d23;
+      color: #f3f3f5;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .swap-direction {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      width: 38px;
+      height: 38px;
+      place-items: center;
+      margin: -7px auto;
+      border: 4px solid #111318;
+      border-radius: 12px;
+      background: #25282f;
+      color: #f1a0a6;
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+      transition: color .18s ease, background .18s ease, transform .18s ease;
+    }
+
+    .swap-direction:hover {
+      background: #3b2026;
+      color: #fff;
+      transform: rotate(180deg);
+    }
+
+    .swap-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 17px 0 4px;
+    }
+
+    .swap-capability-notice {
+      min-height: 20px;
+      color: #989eaa;
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    #swapNetwork {
+      max-width: 190px;
+      min-height: 36px;
+      border-color: var(--swap-line);
+      background-color: #13161b;
+      font-size: 11px;
+    }
+
+    .swap-summary {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin: 12px 0 20px;
+      padding: 16px 0 0;
+      border-top: 1px solid rgba(255, 255, 255, .07);
+    }
+
+    .swap-summary > span {
+      display: grid;
+      min-width: 0;
+      gap: 7px;
+      color: #848b96;
+      font-size: 10px;
+    }
+
+    .swap-summary strong {
+      overflow: hidden;
+      color: #e3e4e8;
+      font-size: 11px;
+      font-weight: 600;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .swap-field input.token-address {
+      flex: 0 1 190px;
+      min-width: 120px;
+      max-width: 190px;
+      min-height: 40px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--panel-strong);
+      font-size: 10px;
+      font-weight: 500;
+    }
+
+    #swapSlippage {
+      width: 100%;
+      min-height: 34px;
+      padding: 6px 8px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #13161b;
+      color: var(--text);
+      font-size: 11px;
+    }
+
+    .quote-review {
+      margin: 15px 0 0;
+      padding: 14px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, .025);
+    }
+
+    .quote-review h3 {
+      margin: 0 0 10px;
+      color: #f0f1f3;
+      font-size: 13px;
+    }
+
+    .quote-review dl {
+      display: grid;
+      grid-template-columns: minmax(90px, .8fr) minmax(0, 1.4fr);
+      gap: 8px 12px;
+      margin: 0;
+      font-size: 10px;
+    }
+
+    .quote-review dt { color: #9399a3; }
+    .quote-review dd { margin: 0; color: #e3e4e8; overflow-wrap: anywhere; }
+    .quote-review p { margin: 12px 0 0; color: #e3c77e; font-size: 10px; line-height: 1.55; }
+
+    .swap-submit,
+    #getQuote {
+      width: 100%;
+      min-height: 50px;
+      border: 1px solid rgba(234, 84, 96, .55);
+      border-radius: 12px;
+      background: linear-gradient(115deg, #d54552, #a72d39);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 750;
+      letter-spacing: .01em;
+      box-shadow: 0 10px 30px rgba(176, 43, 56, .2);
+      cursor: pointer;
+      transition: filter .18s ease, transform .18s ease;
+    }
+
+    .swap-submit:not(:disabled):hover,
+    #getQuote:not(:disabled):hover {
+      filter: brightness(1.12);
+      transform: translateY(-1px);
+    }
+
+    .swap-submit:disabled,
+    #getQuote:disabled {
+      border-color: rgba(255, 255, 255, .07);
+      background: #26282e;
+      color: #868b95;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+
+    .swap-status {
+      min-height: 34px;
+      margin: 12px 2px 0;
+      color: #969ca6;
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    .swap-status[data-state="error"] {
+      color: #ff8e98;
+    }
+
+    .swap-status[data-state="pending"] {
+      color: #e3c77e;
+    }
+
+    .swap-status[data-state="success"] {
+      color: #69d8a2;
+    }
+
+    .swap-note {
+      margin: 5px 0 0;
+      color: #747b86;
+      font-size: 10px;
+      line-height: 1.7;
+      text-align: center;
+    }
+
+    .swap-aside {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 100%;
+      background:
+        radial-gradient(ellipse at 100% 0, rgba(154, 39, 51, .2), transparent 55%),
+        linear-gradient(150deg, #15171d, #0d0f13);
+    }
+
+    .swap-aside h2 {
+      max-width: 350px;
+      margin: 17px 0 14px;
+      font-size: clamp(26px, 3.2vw, 36px);
+      font-weight: 650;
+      letter-spacing: -.045em;
+      line-height: 1.12;
+    }
+
+    .swap-aside > p {
+      margin: 0 0 30px;
+      font-size: 12px;
+    }
+
+    .swap-stat {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 16px 0;
+      border-top: 1px solid rgba(255, 255, 255, .08);
+      color: #9298a3;
+      font-size: 11px;
+    }
+
+    .swap-stat strong {
+      color: #f1f2f4;
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .mobile-menu {
+      display: none;
+    }
+
+    @media (max-width: 950px) {
+      .nav.container {
+        gap: 22px;
+      }
+
+      .desktop-nav {
+        gap: 16px;
+      }
+
+      .desktop-nav a {
+        font-size: 11px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .nav.container {
+        width: min(100% - 32px, 600px);
+        min-height: 64px;
+      }
+
+      .desktop-nav,
+      .nav-actions .icon-button,
+      .nav-actions .language-selector {
+        display: none;
+      }
+
+      .nav-actions {
+        margin-left: auto;
+      }
+
+      .wallet-button {
+        min-height: 36px;
+        padding: 0 12px;
+        font-size: 11px;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .mobile-menu {
+        display: none;
+        width: min(100% - 32px, 600px);
+        margin: 0 auto 12px;
+        padding: 8px;
+        border: 1px solid var(--swap-line);
+        border-radius: 14px;
+        background: #111318;
+      }
+
+      .mobile-menu.is-open {
+        display: grid;
+        gap: 3px;
+      }
+
+      .mobile-menu > a {
+        padding: 11px 12px;
+        border-radius: 8px;
+      }
+
+      .mobile-menu > a:hover,
+      .mobile-menu > a[href="./swap.html"] {
+        background: rgba(225, 74, 86, .1);
+        color: #fff;
+      }
+
+      .mobile-language-selector {
+        margin: 5px 10px;
+      }
+
+      .swap-page {
+        width: min(100% - 32px, 600px) !important;
+        padding-top: 54px;
+        padding-bottom: 54px;
+      }
+
+      .swap-intro {
+        margin-bottom: 28px;
+        text-align: left;
+      }
+
+      .swap-intro h1 {
+        max-width: 520px;
+        font-size: clamp(34px, 8vw, 46px);
+      }
+
+      .swap-intro p {
+        margin-left: 0;
+        font-size: 13px;
+      }
+
+      .swap-layout {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .swap-aside {
+        min-height: auto;
+      }
+
+      .swap-aside > p {
+        margin-bottom: 18px;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .nav.container,
+      .swap-page {
+        width: calc(100% - 24px) !important;
+      }
+
+      .brand-text {
+        font-size: 11px;
+        letter-spacing: .18em;
+      }
+
+      .wallet-button {
+        max-width: 128px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .swap-card,
+      .swap-aside {
+        padding: 19px 16px;
+        border-radius: 16px;
+      }
+
+      .swap-field {
+        min-height: 90px;
+        gap: 9px;
+        padding: 14px 12px;
+      }
+
+      .swap-field select,
+      .swap-field input.token-address {
+        max-width: 115px;
+        min-height: 37px;
+        padding-left: 9px;
+        font-size: 11px;
+      }
+
+      #swapNetwork {
+        max-width: 155px;
+      }
+
+      .network-status {
+        padding: 7px 8px;
+        font-size: 8px;
+      }
+
+      .swap-summary {
+        gap: 6px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+<body data-swap-page="true">
+  <div class="page-shell">
+    <header class="site-header">
+      <nav class="nav container" aria-label="Main navigation">
+        <a class="brand" href="./index.html" aria-label="KRONOS home"><span class="brand-mark" aria-hidden="true">K</span><span class="brand-text">KRONOS</span></a>
+        <div class="nav-links desktop-nav" aria-label="Desktop navigation">
+          <a href="./index.html#markets" data-i18n="markets">Markets</a><a href="./trade.html">Trading</a><a href="./listings.html" data-i18n="listings">Listings</a><a href="./swap.html" data-i18n="swap">Swap</a><a href="./listings.html#submit-project" data-i18n="listProject">List your project</a><a href="./index.html#research">Research</a>
+        </div>
+        <div class="nav-actions"><button class="icon-button" type="button" aria-label="Search" data-i18n-title="search"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 3a7.5 7.5 0 015.94 12.56l4.16 4.16 1.41-1.41-4.16-4.16A7.5 7.5 0 1110.5 3zm0 2a5.5 5.5 0 100 11 5.5 5.5 0 000-11z"/></svg></button><button class="wallet-button" type="button" data-wallet-connect aria-label="Connect wallet" data-i18n="connectWallet">Connect wallet</button><div id="walletMessage" class="wallet-message" aria-live="polite"></div><div class="language-selector"><button class="language-toggle" type="button" aria-haspopup="listbox"><span>◎</span> <span class="language-current">English</span></button><div class="language-menu" role="listbox"></div></div></div>
+        <button class="menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false"><span></span><span></span><span></span></button>
+      </nav>
+      <div class="mobile-menu" aria-label="Mobile navigation"><a href="./index.html#markets" data-i18n="markets">Markets</a><a href="./trade.html">Trading</a><a href="./listings.html" data-i18n="listings">Listings</a><a href="./swap.html" data-i18n="swap">Swap</a><a href="./listings.html#submit-project" data-i18n="listProject">List your project</a><a href="./index.html#research">Research</a><div class="language-selector mobile-language-selector"><button class="language-toggle" type="button" aria-haspopup="listbox"><span>◎</span> <span class="language-current">English</span></button><div class="language-menu" role="listbox"></div></div></div>
+    </header>
+
+    <main class="page-main container swap-page">
+      <section class="swap-intro"><span class="eyebrow" data-i18n="swapEyebrow">Same-chain swap · non-order-book</span><h1 data-i18n="swapTitle">Swap assets with clarity.</h1><p data-i18n="swapCopy">Request a firm provider quote for ERC-20 token contracts on a supported EVM network. KRONOS is not an order-book exchange.</p></section>
+      <section class="swap-layout">
+        <div class="swap-card panel">
+          <div class="swap-card-head"><div><span class="swap-kicker">0x SAME-CHAIN ROUTE</span><h2 data-i18n="swap">Swap</h2></div><span class="network-status"><i></i> EXECUTION DISABLED</span></div>
+          <div class="swap-field"><div><label for="swap-from-amount" data-i18n="from">From amount</label><input id="swap-from-amount" type="text" inputmode="decimal" maxlength="78" placeholder="0.00" autocomplete="off" /></div><input id="swap-from" class="token-address" type="text" maxlength="42" placeholder="Sell token contract" aria-label="Sell token contract address" autocomplete="off" /></div>
+          <button class="swap-direction" id="swap-direction" type="button" aria-label="Reverse swap">↕</button>
+          <div class="swap-field"><div><label for="swap-to-amount" data-i18n="to">Estimated output</label><input id="swap-to-amount" type="text" placeholder="Quote not requested" readonly /></div><input id="swap-to" class="token-address" type="text" maxlength="42" placeholder="Buy token contract" aria-label="Buy token contract address" autocomplete="off" /></div>
+          <div class="swap-meta">
+            <div id="swapCapabilityNotice" class="swap-capability-notice" aria-live="polite"></div>
+            <select id="swapNetwork" class="swap-network-select" aria-label="Select network"></select>
+          </div>
+          <div class="swap-summary"><span><span data-i18n="rate">Quote</span><strong id="swap-rate">—</strong></span><span><label for="swapSlippage" data-i18n="slippage">Slippage · bps</label><input id="swapSlippage" type="number" min="0" max="500" step="1" value="100" aria-label="Slippage tolerance in basis points" /></span><span><span data-i18n="route">Route</span><strong>0x · same-chain</strong></span></div>
+          <button id="getQuote" class="primary-button swap-submit" type="button" disabled>Connect wallet</button>
+          <section class="quote-review" id="swapQuoteReview" aria-labelledby="swapQuoteTitle" hidden>
+            <h3 id="swapQuoteTitle">Firm quote review · not executable</h3>
+            <dl>
+              <dt>Sell amount</dt><dd id="quoteSellAmount">—</dd>
+              <dt>Estimated receive</dt><dd id="quoteBuyAmount">—</dd>
+              <dt>Minimum received</dt><dd id="quoteMinimumReceived">—</dd>
+              <dt>Estimated network fee</dt><dd id="quoteNetworkFee">—</dd>
+              <dt>Provider fees</dt><dd id="quoteProviderFees">—</dd>
+              <dt>Price impact</dt><dd id="quotePriceImpact">—</dd>
+              <dt>Route sources</dt><dd id="quoteRoute">—</dd>
+              <dt>Provider block</dt><dd id="quoteBlock">—</dd>
+            </dl>
+            <p>Always verify the token contracts and network. This quote is not a recommendation. KRONOS will not request token approval, sign, broadcast, or track a transaction from this page.</p>
+          </section>
+          <div id="swapStatus" class="swap-status" role="status" aria-live="polite"></div>
+          <p class="swap-note" data-i18n="swapNote">Quotes are available only after server-side 0x setup. No wallet approval or transaction execution is enabled.</p>
+        </div>
+        <aside class="swap-aside panel"><span class="eyebrow" data-i18n="marketOverview">Network overview</span><h2 data-i18n="swapAsideTitle">A cleaner way to compare.</h2><p data-i18n="swapAsideCopy">Choose a supported EVM network and enter verified token contract addresses. A quote is never an order-book price, guarantee, or completed trade.</p><div class="swap-stat"><span>Supported EVM networks</span><strong id="swap-asset-count">—</strong></div><div class="swap-stat"><span>Quote provider</span><strong id="swap-updated">0x · checking</strong></div></aside>
+      </section>
+    </main>
+  </div>
+  <script src="assets/js/market-api.js"></script>
+  <script src="assets/js/wallet-connect.js"></script>
+  <script src="assets/js/swap.js"></script>
+</body>
+</html>

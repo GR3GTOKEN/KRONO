@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050709">
+  <title>Platform Status — KRONOS</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #050709;
+      --panel: #0b0e12;
+      --line: #232a31;
+      --muted: #929aa3;
+      --text: #f1f3f5;
+      --red: #c93642;
+      font-family: "Cambria Math", Cambria, "Times New Roman", serif;
+    }
+
+    * { box-sizing: border-box; }
+    body { min-width: 320px; min-height: 100vh; margin: 0; background: var(--bg); color: var(--text); }
+    a { color: inherit; text-decoration: none; }
+    a:focus-visible { outline: 2px solid #e75a66; outline-offset: 3px; }
+    .topbar { min-height: 58px; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 10px max(20px, calc((100vw - 1160px) / 2)); border-bottom: 1px solid #1c2228; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: 4px; }
+    .brand-mark { color: #d23c45; font-size: 30px; }
+    nav { display: flex; flex-wrap: wrap; gap: 18px; color: #b9c0c7; font-size: 13px; }
+    nav a:hover { color: #fff; }
+    main { width: min(1160px, calc(100% - 40px)); margin: 52px auto; }
+    .eyebrow { color: #df6871; font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; }
+    h1 { margin: 8px 0; font-size: clamp(32px, 5vw, 48px); }
+    .intro { max-width: 720px; color: var(--muted); line-height: 1.65; }
+    .notice { margin: 24px 0; padding: 14px 16px; border: 1px solid #63323a; border-radius: 8px; background: #1a1013; color: #e8d9db; line-height: 1.6; }
+    .notice strong { color: #ffadb4; }
+    .capabilities { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 12px; }
+    .capability, .network-card { padding: 17px; border: 1px solid var(--line); border-radius: 8px; background: linear-gradient(145deg, #0d1115, #080a0d); }
+    .capability header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .capability h2, .network-card h2 { margin: 0; font-size: 16px; }
+    .capability p, .network-card p { margin: 12px 0 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+    .status { padding: 4px 8px; border: 1px solid #373e45; border-radius: 20px; color: #c6cbd0; font-size: 10px; font-weight: 700; letter-spacing: .04em; white-space: nowrap; }
+    .status[data-status="LIVE"], .status[data-status="EVM ONLY"], .status[data-status="QUOTES READY"] { border-color: #256548; color: #83e4aa; }
+    .status[data-status="DEMO"] { border-color: #806324; color: #e5c982; }
+    .status[data-status="UNAVAILABLE"] { border-color: #63323a; color: #ff9aa2; }
+    .network-card { margin-top: 28px; }
+    .network-card dl { display: grid; grid-template-columns: minmax(120px, .4fr) 1fr; gap: 8px 16px; margin: 16px 0 0; font-size: 13px; }
+    .network-card dt { color: var(--muted); }
+    .network-card dd { margin: 0; overflow-wrap: anywhere; }
+    .network-card a { color: #f18a92; text-decoration: underline; }
+    @media (max-width: 620px) { .topbar { align-items: flex-start; flex-direction: column; } main { margin-top: 32px; } .network-card dl { grid-template-columns: 1fr; gap: 4px; } .network-card dd { margin-bottom: 10px; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="KRONOS home"><span class="brand-mark" aria-hidden="true">Ω</span><span>KRONOS</span></a>
+    <nav aria-label="Main navigation">
+      <a href="discover.html">Discover</a>
+      <a href="trade.html">Trading</a>
+      <a href="swap.html">Swap</a>
+      <a href="listings.html">Listings</a>
+      <a href="listings.html#submit-project">Promote a project</a>
+      <a href="login.html">Account</a>
+    </nav>
+  </header>
+  <main>
+    <div class="eyebrow">Stage 1 · Platform foundation</div>
+    <h1>Integration status</h1>
+    <p class="intro">KRONOS provides global crypto market data and a progressively expandable multi-chain wallet and swap foundation. This registry distinguishes market data, wallet access, same-chain swap provider support, execution, and cross-chain routing.</p>
+    <div class="notice" id="tradingNotice"><strong>Loading live transaction status...</strong></div>
+    <section class="capabilities" id="capabilityGrid" aria-label="Platform capability status"></section>
+    <section class="network-card" aria-labelledby="networkHeading">
+      <h2 id="networkHeading">Configured network registry</h2>
+      <div id="networkRegistry"></div>
+    </section>
+  </main>
+  <script src="assets/js/platform-registry.js"></script>
+</body>
+</html>
